@@ -11,6 +11,6 @@
 |
 */
 
-Route::get('/', 'PageController@home');
-
-// TEST FOR GIT //
+Route::get('/', function () {
+    return view('welcome');
+});
