@@ -1,4 +1,220 @@
+/* VARIABLES */
+
+/* APPLICABLE TO ALL */
+
 body {
   margin: 0px;
+  overflow-x: hidden;
+}
+
+/* JUMBOTRON */
+
+.jumbotron_holder {
+  display: table;
+  width: 100%;
+  height: 100vh;
+}
+
+.jumbotron_anchor {
+  display: table-cell;
+  vertical-align: middle;
+}
+
+.jumbotron_card {
+  margin: 0 auto;
+  text-align: left;
+}
+
+.jumbotron_card h1 {
+  color: white;
+  font-size: 80px;
+  font-weight: bold;
+}
+
+.jumbotron_card h2 {
+  color: white;
+  font-size: 45px;
+}
+
+@media (max-width: 768px) {
+  .jumbotron_card h1 {
+    font-size: 60px;
+  }
+
+  .jumbotron_card h2 {
+    font-size: 32px;
+  }
+}
+
+/* TYPING EFFECT */
+
+.line-1 {
+  position: relative;
+  top: 50%;
+  width: 480px;
+  margin: 0 auto;
+  border-right: 3px solid transparent;
+  font-size: 180%;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
+}
+
+.line-2 {
+  position: relative;
+  top: 50%;
+  width: 520px;
+  margin: 0 auto;
+  border-right: 3px solid transparent;
+  font-size: 180%;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
+}
+
+/* Animation */
+
+.anim-typewriter {
+  -webkit-animation: typewriter 1s steps(12) 1s 1 normal both, blinkTextCursor 500ms steps(12) 5 normal;
+          animation: typewriter 1s steps(12) 1s 1 normal both, blinkTextCursor 500ms steps(12) 5 normal;
+}
+
+@-webkit-keyframes typewriter {
+  from {
+    width: 0;
+  }
+
+  to {
+    width: 480px;
+  }
+}
+
+@keyframes typewriter {
+  from {
+    width: 0;
+  }
+
+  to {
+    width: 480px;
+  }
+}
+
+@-webkit-keyframes blinkTextCursor {
+  from {
+    border-right-color: rgba(255, 255, 255, 0.75);
+  }
+
+  to {
+    border-right-color: transparent;
+  }
+}
+
+@keyframes blinkTextCursor {
+  from {
+    border-right-color: rgba(255, 255, 255, 0.75);
+  }
+
+  to {
+    border-right-color: transparent;
+  }
+}
+
+.anim-typewriter2 {
+  -webkit-animation: typewriter2 2s steps(21) 3s 1 normal both, blinkTextCursor2 500ms steps(21) 2.5s 6 normal;
+          animation: typewriter2 2s steps(21) 3s 1 normal both, blinkTextCursor2 500ms steps(21) 2.5s 6 normal;
+}
+
+@-webkit-keyframes typewriter2 {
+  from {
+    width: 0;
+  }
+
+  to {
+    width: 520px;
+  }
+}
+
+@keyframes typewriter2 {
+  from {
+    width: 0;
+  }
+
+  to {
+    width: 520px;
+  }
+}
+
+@-webkit-keyframes blinkTextCursor2 {
+  from {
+    border-right-color: rgba(255, 255, 255, 0.75);
+  }
+
+  to {
+    border-right-color: transparent;
+  }
+}
+
+@keyframes blinkTextCursor2 {
+  from {
+    border-right-color: rgba(255, 255, 255, 0.75);
+  }
+
+  to {
+    border-right-color: transparent;
+  }
+}
+
+@media (max-width: 768px) {
+  .line-1 {
+    width: 370px;
+  }
+
+@-webkit-keyframes typewriter {
+    from {
+      width: 0;
+    }
+
+    to {
+      width: 370px;
+    }
+}
+
+@keyframes typewriter {
+    from {
+      width: 0;
+    }
+
+    to {
+      width: 370px;
+    }
+}
+
+  .line-2 {
+    width: 370px;
+  }
+
+@-webkit-keyframes typewriter2 {
+    from {
+      width: 0;
+    }
+
+    to {
+      width: 370px;
+    }
+}
+
+@keyframes typewriter2 {
+    from {
+      width: 0;
+    }
+
+    to {
+      width: 370px;
+    }
+}
 }
 

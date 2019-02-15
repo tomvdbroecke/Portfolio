@@ -1,3 +1,133 @@
+/* VARIABLES */
+/// TYPEWRITER 1
+$typewriter_l1_width: 480px;
+$typewriter_l1_width_small: 370px;
+$typewriter_animation_length: 1s;
+$typewriter_animation_steps: 12;
+$typewriter_blinker_interval: 500ms;
+
+/// TYPEWRITER 2
+$typewriter_l2_width: 520px;
+$typewriter_l2_width_small: 370px;
+$typewriter2_animation_length: 2s;
+$typewriter2_animation_steps: 21;
+$typewriter2_blinker_interval: 500ms;
+
+/* APPLICABLE TO ALL */
 body {
     margin: 0px;
+    overflow-x: hidden;
+}
+
+/* JUMBOTRON */
+.jumbotron_holder {
+    display: table;
+    width: 100%;
+    height: 100vh;
+}
+
+.jumbotron_anchor {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.jumbotron_card {
+    margin: 0 auto;
+    text-align: left;
+}
+
+.jumbotron_card h1 {
+    color: white;
+    font-size: 80px;
+    font-weight: bold;
+}
+
+.jumbotron_card h2 {
+    color: white;
+    font-size: 45px;
+}
+
+// If screen is < 768
+@media (max-width: 768px) {
+    .jumbotron_card h1 {
+        font-size: 60px;
+    }
+    .jumbotron_card h2 {
+        font-size: 32px;
+    }
+}
+
+/* TYPING EFFECT */
+.line-1 {
+    position: relative;
+    top: 50%;  
+    width: $typewriter_l1_width;
+    margin: 0 auto;
+    border-right: 3px solid transparent;
+    font-size: 180%;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    transform: translateY(-50%);    
+}
+
+.line-2 {
+    position: relative;
+    top: 50%;  
+    width: $typewriter_l2_width;
+    margin: 0 auto;
+    border-right: 3px solid transparent;
+    font-size: 180%;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    transform: translateY(-50%);
+}
+
+/* Animation */
+.anim-typewriter {
+    animation: typewriter $typewriter_animation_length steps($typewriter_animation_steps) 1s 1 normal both,
+             blinkTextCursor $typewriter_blinker_interval steps($typewriter_animation_steps) 5 normal;
+}
+@keyframes typewriter {
+    from{width: 0;}
+    to{width: $typewriter_l1_width;}
+}
+@keyframes blinkTextCursor {
+    from{border-right-color: rgba(255,255,255,.75);}
+    to{border-right-color: transparent;}
+}
+
+.anim-typewriter2 {
+    animation: typewriter2 $typewriter2_animation_length steps($typewriter2_animation_steps) 3s 1 normal both,
+                blinkTextCursor2 $typewriter2_blinker_interval steps($typewriter2_animation_steps) 2.5s 6 normal;
+}
+@keyframes typewriter2 {
+    from{width: 0;}
+    to{width: $typewriter_l2_width;}
+}
+@keyframes blinkTextCursor2 {
+    from{border-right-color: rgba(255,255,255,.75);}
+    to{border-right-color: transparent;}
+}
+
+// If screen is < 768
+@media (max-width: 768px) {
+    .line-1 {
+        width: $typewriter_l1_width_small;
+    }
+
+    @keyframes typewriter {
+        from{width: 0;}
+        to{width: $typewriter_l1_width_small;}
+    }
+
+    .line-2 {
+        width: $typewriter_l2_width_small;
+    }
+
+    @keyframes typewriter2 {
+        from{width: 0;}
+        to{width: $typewriter_l2_width_small;}
+    }
 }
