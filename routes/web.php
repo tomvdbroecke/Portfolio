@@ -12,3 +12,5 @@
 */
 
 Route::get('/', 'PageController@home');
+
+// TEST FOR GIT //
