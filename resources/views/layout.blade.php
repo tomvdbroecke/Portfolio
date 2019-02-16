@@ -2,6 +2,16 @@
 
 <html lang="{{ app()->getLocale() }}">
     <head>
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-134664416-1"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'UA-134664416-1');
+        </script>
+
         <title>Tom van den Broecke</title>
 
         <!-- Metatags -->
@@ -20,12 +30,30 @@
         <link rel="apple-touch-icon" sizes="180x180" href="{{ URL::asset('assets/favicons/apple-touch-icon.png') }}">
         <link rel="icon" type="image/png" sizes="32x32" href="{{ URL::asset('assets/favicons/favicon-32x32.png') }}">
         <link rel="icon" type="image/png" sizes="16x16" href="{{ URL::asset('assets/favicons/favicon-16x16.png') }}">
+        <link rel="icon" type="image/png" sizes="192x192" href="{{ URL::asset('assets/favicons/favicon-192x192.png') }}">
+        <link rel="icon" type="image/png" sizes="264x168" href="{{ URL::asset('assets/favicons/speeddial-264x168.png') }}">
         <link rel="manifest" href="{{ URL::asset('assets/favicons/site.webmanifest') }}">
         <link rel="mask-icon" href="{{ URL::asset('assets/favicons/safari-pinned-tab.svg') }}" color="#5bbad5">
         <link rel="shortcut icon" href="{{ URL::asset('assets/favicons/favicon.ico') }}">
         <meta name="msapplication-TileColor" content="#2b5797">
         <meta name="msapplication-config" content="{{ URL::asset('assets/favicons/browserconfig.xml') }}">
         <meta name="theme-color" content="#060d21">
+
+        <!-- Structured Data -->
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "Website",
+            "url": "http://www.tomvdbroecke.com",
+            "description": "A portfolio website made by Tom van den Broecke.", 
+            "keywords": "HTML, CSS, JavaScript, PHP, C#, Programming, Development, Developing, Design, Websites, Full-Stack, Web Design",
+            "author": [
+            {
+                "@type": "Person",
+                "name": "Tom van den Broecke"
+            }]
+        }
+        </script>
     </head>
     <body>
         <!-- Initialize Scroll Animations -->
