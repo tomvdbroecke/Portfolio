@@ -47,6 +47,14 @@ body {
     font-size: 45px;
 }
 
+.jumbotron_card span {
+    color: lightgreen;
+}
+
+#particles-js {
+    background: radial-gradient(ellipse at center, rgba(19,66,104,1) 0%,rgba(6,13,33,1) 100%);
+}
+
 // If screen is < 768
 @media (max-width: 768px) {
     .jumbotron_card h1 {
@@ -68,7 +76,7 @@ body {
     text-align: center;
     white-space: nowrap;
     overflow: hidden;
-    transform: translateY(-50%);    
+    transform: translateY(-50%);
 }
 
 .line-2 {
@@ -82,6 +90,14 @@ body {
     white-space: nowrap;
     overflow: hidden;
     transform: translateY(-50%);
+    margin-bottom: 30px;
+}
+
+.message {
+    text-align: center;
+    overflow: hidden;
+    margin: 0 auto;
+    color: lightgrey;
 }
 
 /* Animation */

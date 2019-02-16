@@ -36,6 +36,14 @@ body {
   font-size: 45px;
 }
 
+.jumbotron_card span {
+  color: lightgreen;
+}
+
+#particles-js {
+  background: radial-gradient(ellipse at center, #134268 0%, #060d21 100%);
+}
+
 @media (max-width: 768px) {
   .jumbotron_card h1 {
     font-size: 60px;
@@ -74,6 +82,14 @@ body {
   overflow: hidden;
   -webkit-transform: translateY(-50%);
           transform: translateY(-50%);
+  margin-bottom: 30px;
+}
+
+.message {
+  text-align: center;
+  overflow: hidden;
+  margin: 0 auto;
+  color: lightgrey;
 }
 
 /* Animation */
