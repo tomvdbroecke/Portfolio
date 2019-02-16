@@ -13,6 +13,9 @@ $typewriter2_animation_length: 2s;
 $typewriter2_animation_steps: 21;
 $typewriter2_blinker_interval: 500ms;
 
+/// COLOR SCHEME
+$accent_color: #00b6ff;
+
 /* APPLICABLE TO ALL */
 body {
     margin: 0px;
@@ -50,7 +53,7 @@ canvas {
 
 .jumbotron_card {
     margin: 0 auto;
-    text-align: left;
+    text-align: center;
 }
 
 .jumbotron_card h1 {
@@ -64,8 +67,41 @@ canvas {
     font-size: 45px;
 }
 
+.jumbotron_card .git_btn_holder {
+    margin-top: 30px;
+    transition-delay: 7s;
+}
+
+.jumbotron_card .git_btn {
+    transition: 0.3s;
+    background: transparent;
+    padding: 8px 15px;
+    border: 3px solid grey;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: 20px;
+    outline: 0px;
+}
+
+.jumbotron_card .git_btn:hover {
+    border: 3px solid $accent_color;
+}
+
+.jumbotron_card .git_btn:active {
+    background: $accent_color !important;
+    border-color: $accent_color !important;
+}
+
+.jumbotron_card .git_btn:focus {
+    box-shadow: none !important;
+}
+
+.jumbotron_card .git_btn i {
+    font-weight: normal;
+}
+
 .jumbotron_card span {
-    color: lightgreen;
+    color: $accent_color;
 }
 
 #particles-js {
