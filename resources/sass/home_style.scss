@@ -24,6 +24,23 @@ body {
     display: table;
     width: 100%;
     height: 100vh;
+    overflow: hidden;
+}
+
+.jumbotron_holder_mobile {
+    display: table;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.particles-js-mobile {
+    position: absolute;
+}
+
+canvas {
+    min-height: 100vh !important;
+    min-width: 100vw !important;
 }
 
 .jumbotron_anchor {
@@ -41,7 +58,7 @@ body {
     font-size: 80px;
     font-weight: bold;
 }
-
+ 
 .jumbotron_card h2 {
     color: white;
     font-size: 45px;
@@ -98,6 +115,14 @@ body {
     overflow: hidden;
     margin: 0 auto;
     color: lightgrey;
+}
+
+.message:first-child {
+    transition-delay: 5.2s;
+}
+
+.message:last-child {
+    transition-delay: 6s;
 }
 
 /* Animation */
