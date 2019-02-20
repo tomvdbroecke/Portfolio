@@ -1,14 +1,11 @@
 /* VARIABLES */
-
 /* APPLICABLE TO ALL */
-
 body {
   margin: 0px;
   overflow-x: hidden;
 }
 
 /* JUMBOTRON */
-
 .jumbotron_holder {
   display: table;
   width: 100%;
@@ -53,9 +50,23 @@ canvas {
   font-size: 45px;
 }
 
+.jumbotron_card .btn_holder {
+  max-width: 320px;
+  margin: 0 auto;
+}
+
 .jumbotron_card .git_btn_holder {
   margin-top: 30px;
   transition-delay: 7s;
+  float: left;
+  clear: left;
+}
+
+.jumbotron_card .login_btn_holder {
+  margin-top: 30px;
+  transition-delay: 7s;
+  float: right;
+  clear: right;
 }
 
 .jumbotron_card .git_btn {
@@ -103,9 +114,7 @@ canvas {
     font-size: 32px;
   }
 }
-
 /* TYPING EFFECT */
-
 .line-1 {
   position: relative;
   top: 50%;
@@ -151,7 +160,6 @@ canvas {
 }
 
 /* Animation */
-
 .anim-typewriter {
   -webkit-animation: typewriter 1s steps(12) 1s 1 normal both, blinkTextCursor 500ms steps(12) 5 normal;
           animation: typewriter 1s steps(12) 1s 1 normal both, blinkTextCursor 500ms steps(12) 5 normal;
@@ -161,7 +169,6 @@ canvas {
   from {
     width: 0;
   }
-
   to {
     width: 480px;
   }
@@ -171,32 +178,26 @@ canvas {
   from {
     width: 0;
   }
-
   to {
     width: 480px;
   }
 }
-
 @-webkit-keyframes blinkTextCursor {
   from {
     border-right-color: rgba(255, 255, 255, 0.75);
   }
-
   to {
     border-right-color: transparent;
   }
 }
-
 @keyframes blinkTextCursor {
   from {
     border-right-color: rgba(255, 255, 255, 0.75);
   }
-
   to {
     border-right-color: transparent;
   }
 }
-
 .anim-typewriter2 {
   -webkit-animation: typewriter2 2s steps(21) 3s 1 normal both, blinkTextCursor2 500ms steps(21) 2.5s 6 normal;
           animation: typewriter2 2s steps(21) 3s 1 normal both, blinkTextCursor2 500ms steps(21) 2.5s 6 normal;
@@ -206,7 +207,6 @@ canvas {
   from {
     width: 0;
   }
-
   to {
     width: 520px;
   }
@@ -216,79 +216,67 @@ canvas {
   from {
     width: 0;
   }
-
   to {
     width: 520px;
   }
 }
-
 @-webkit-keyframes blinkTextCursor2 {
   from {
     border-right-color: rgba(255, 255, 255, 0.75);
   }
-
   to {
     border-right-color: transparent;
   }
 }
-
 @keyframes blinkTextCursor2 {
   from {
     border-right-color: rgba(255, 255, 255, 0.75);
   }
-
   to {
     border-right-color: transparent;
   }
 }
-
 @media (max-width: 768px) {
   .line-1 {
     width: 355px;
   }
 
-@-webkit-keyframes typewriter {
+  @-webkit-keyframes typewriter {
     from {
       width: 0;
     }
-
     to {
       width: 355px;
     }
-}
+  }
 
-@keyframes typewriter {
+  @keyframes typewriter {
     from {
       width: 0;
     }
-
     to {
       width: 355px;
     }
-}
-
+  }
   .line-2 {
     width: 370px;
   }
 
-@-webkit-keyframes typewriter2 {
+  @-webkit-keyframes typewriter2 {
     from {
       width: 0;
     }
-
     to {
       width: 370px;
     }
-}
+  }
 
-@keyframes typewriter2 {
+  @keyframes typewriter2 {
     from {
       width: 0;
     }
-
     to {
       width: 370px;
     }
+  }
 }
-}
-

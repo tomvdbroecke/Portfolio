@@ -67,9 +67,23 @@ canvas {
     font-size: 45px;
 }
 
+.jumbotron_card .btn_holder {
+    max-width: 320px;
+    margin: 0 auto;
+}
+
 .jumbotron_card .git_btn_holder {
     margin-top: 30px;
     transition-delay: 7s;
+    float: left;
+    clear: left;
+}
+
+.jumbotron_card .login_btn_holder {
+    margin-top: 30px;
+    transition-delay: 7s;
+    float: right;
+    clear: right;
 }
 
 .jumbotron_card .git_btn {

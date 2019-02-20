@@ -27,4 +27,14 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    // IsAdmin() function
+    public function IsAdmin() {
+        return $this->permission_rank == "admin";
+    }
+
+    // IsActive() function
+    public function IsActive() {
+        return $this->active;
+    }
 }

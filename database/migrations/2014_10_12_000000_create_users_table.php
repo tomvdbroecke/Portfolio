@@ -15,10 +15,16 @@ class CreateUsersTable extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
+            $table->string('name'); /// Eg. "Tom"
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->boolean('active')->default(false); /// Does user have any active projects? -> Yes/No
+            $table->string('permission_rank', 20)->default("user"); // Admin, User
+
+            // Permissions
+            $table->text('permitted_projects')->nullable(); // -> Stored as JSON
+
             $table->rememberToken();
             $table->timestamps();
         });
