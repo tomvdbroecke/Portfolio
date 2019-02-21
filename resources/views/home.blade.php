@@ -14,7 +14,7 @@
                     <h4 class="message" data-aos="fade-up" data-aos-delay="2300" style="transition-delay: 6s;">(Please come back later.)</h4>
                     <div class="btn_holder">
                         <div class="git_btn_holder" data-aos="fade-up" data-aos-delay="2300" style="transition-delay: 7s;"><a class="btn btn-primary git_btn" href="https://www.github.com/tomvdbroecke" target="_blank"><i class="fab fa-github"></i> Github</a></div>
-                        <div class="login_btn_holder" data-aos="fade-up" data-aos-delay="2300" style="transition-delay: 8s;"><a class="btn btn-primary git_btn" href="/login"><i class="fas fa-user-check"></i> Client Login</a></div>
+                        <div class="login_btn_holder" data-aos="fade-up" data-aos-delay="2300" style="transition-delay: 8s;"><a class="btn btn-primary git_btn" href="/login"><i class="fas fa-sign-in-alt"></i> Client Login</a></div>
                     </div>
                 </div>
             </div>
@@ -32,7 +32,7 @@
                             <h4 class="message" data-aos="fade-up" data-aos-delay="2300" style="transition-delay: 6s;" data-aos-anchor-placement="top-bottom">(Please come back later.)</h4>
                             <div class="btn_holder">
                                 <div class="git_btn_holder" data-aos="fade-up" data-aos-delay="2300" style="transition-delay: 7s;"><a class="btn btn-primary git_btn" href="https://www.github.com/tomvdbroecke" target="_blank"><i class="fab fa-github"></i> Github</a></div>
-                                <div class="login_btn_holder" data-aos="fade-up" data-aos-delay="2300" style="transition-delay: 8s;"><a class="btn btn-primary git_btn" href="/login"><i class="fas fa-user-check"></i> Client Login</a></div>
+                                <div class="login_btn_holder" data-aos="fade-up" data-aos-delay="2300" style="transition-delay: 8s;"><a class="btn btn-primary git_btn" href="/login"><i class="fas fa-sign-in-alt"></i> Client Login</a></div>
                             </div>
                         </div>
                     </div>

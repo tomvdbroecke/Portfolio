@@ -1,0 +1,40 @@
+@import url(https://fonts.googleapis.com/css?family=Roboto);
+@import url(https://fonts.googleapis.com/css?family=Roboto:100);
+@import url(https://fonts.googleapis.com/css?family=Roboto:300);
+
+/* ALL ELEMENTS */
+html {
+    min-width: 100%;
+    min-height: 100%;
+    margin: 0px;
+    padding: 0px;
+}
+
+body {
+    min-width: 100%;
+    min-height: 100%;
+    margin: 0px;
+    padding: 0px;
+    font-family: "Roboto" !important;
+    overflow: hidden;
+}
+
+/* NAVBAR */
+nav {
+    border-bottom: 1px solid lightgray;
+    height: 50px;
+    display: fixed;
+}
+
+nav table {
+    width: 20% !important;
+    float: right;
+    clear: right;
+    border-top: 0px !important;
+    margin: 0px !important;
+    font-weight: bold;
+}
+
+nav table td {
+    border: none !important;
+}

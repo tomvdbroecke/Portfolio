@@ -37,4 +37,30 @@ class User extends Authenticatable
     public function IsActive() {
         return $this->active;
     }
+
+    // Projects() function
+    public function Projects() {
+        if ($this->IsAdmin()) {
+            return array("all");
+        } else {
+            return json_decode($this->permitted_projects);
+        }
+    }
+
+    // ProjectPermission() function
+    public function ProjectPermission($projectName) {
+        $permissions = $this->Projects();
+
+        if ($permissions[0] == "all") {
+            return true;
+        } else {
+            foreach ($permissions as $perm) {
+                if ($perm == $projectName) {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+    }
 }

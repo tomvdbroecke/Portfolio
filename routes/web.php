@@ -14,6 +14,13 @@
 // Regular routes
 Route::get('/', 'PageController@home');
 
+// Dashboard routes
+Route::get('/dashboard', 'UserController@dashboard');
+Route::get('/dashboard/projects', 'UserController@projects');
+Route::get('/dashboard/projects/{projectName}', ['uses' => 'UserController@viewProject', 'as' => 'projectName']);
+Route::get('/dashboard/account', 'UserController@account');
+Route::post('/dashboard/account', 'UserController@editAccount');
+
 // User routes
 Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
 Route::post('login', 'Auth\LoginController@login');

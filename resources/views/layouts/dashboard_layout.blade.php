@@ -3,17 +3,17 @@
     <head>
         <meta charset="utf-8"/>
 
-        <title>Tom van den Broecke - Client Login</title>
+        <title>Tom van den Broecke - Client Dashboard</title>
 
         <!-- OGP Tags -->
-        <meta property="og:title" content="Tom van den Broecke - Client Login">
+        <meta property="og:title" content="Tom van den Broecke - Client Dasboard">
         <meta property="og:description" content="A section of the website for clients to get updates on their projects.">
         <meta property="og:image" content="{{ URL::asset('assets/thumbnail.png') }}">
         <meta property="og:url" content="https://www.tomvdbroecke.com/login">
         <meta property="og:type" content="website">
 
         <!-- Metatags -->
-        <meta name="author" content="Tom van den Broecke - Client Login">
+        <meta name="author" content="Tom van den Broecke - Client Dasboard">
         <meta name="description" content="A section of the website for clients to get updates on their projects.">
         <meta name="image" content="{{ URL::asset('assets/thumbnail.png') }}">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
@@ -22,7 +22,7 @@
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
         <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-        <link rel="stylesheet" href="{{ URL::asset('css/login_style.css') }}">
+        <link rel="stylesheet" href="{{ URL::asset('css/dashboard_style.css') }}">
 
         <!-- Include Favicons -->
         <link rel="apple-touch-icon" sizes="180x180" href="{{ URL::asset('assets/favicons/apple-touch-icon.png') }}">
@@ -38,11 +38,38 @@
         <meta name="theme-color" content="#060d21">
 
     </head>
-    <body class="login_body">
-        <div class="login_background_image"></div>
-        <div class="login_background">
+    <body class="dashboard_body">
+        <div class="dashboard_background_image"></div>
+        <div class="dashboard_background">
             <div class="middle_man">
-                @yield('content')
+                <div class="centered dashboard_holder container" data-aos="fade-in">
+                    <div class="dashboard_head">
+                        <nav class="navbar navbar">
+                            <div class="navbar-header">
+                                <a class="navbar-brand">Dashboard</a>
+                            </div>
+                            <ul class="nav navbar-nav">
+                                <a>Logged in as {{ $User->name }} <i class="fas fa-user-circle"></i></a>
+                            </ul>
+                        </nav>
+                    </div>
+                    <div class="dashboard_content">
+                        <div class="row">
+                            <div id="side_navbar" class="col-4 col-sm-4">
+                                <ul class="sidenav">
+                                    <li><a href="/dashboard/account"{{ $activePage === "account" ? ' class=active' : '' }}>Account</a></li>
+                                    <li><a href="/dashboard/projects"{{ $activePage === "projects" ? ' class=active' : '' }}>Projects</a></li>
+                                </ul>
+                            </div>
+                            <div id="content" class="col-8 col-sm-8">
+                                @yield('content')
+                            </div>
+                        </div>
+                    </div>
+                    <div class="dashboard_footer">
+                        <a class="btn btn-primary btn-logout" href="/logout">Log Out</a>
+                    </div>  
+                </div>
             </div>
         </div>
 

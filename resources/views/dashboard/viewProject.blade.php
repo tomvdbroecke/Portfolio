@@ -3,17 +3,17 @@
     <head>
         <meta charset="utf-8"/>
 
-        <title>Tom van den Broecke - Client Login</title>
+        <title>Tom van den Broecke - {{ $Project->name }}</title>
 
         <!-- OGP Tags -->
-        <meta property="og:title" content="Tom van den Broecke - Client Login">
+        <meta property="og:title" content="Tom van den Broecke - {{ $Project->name }}">
         <meta property="og:description" content="A section of the website for clients to get updates on their projects.">
         <meta property="og:image" content="{{ URL::asset('assets/thumbnail.png') }}">
         <meta property="og:url" content="https://www.tomvdbroecke.com/login">
         <meta property="og:type" content="website">
 
         <!-- Metatags -->
-        <meta name="author" content="Tom van den Broecke - Client Login">
+        <meta name="author" content="Tom van den Broecke - {{ $Project->name }}">
         <meta name="description" content="A section of the website for clients to get updates on their projects.">
         <meta name="image" content="{{ URL::asset('assets/thumbnail.png') }}">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
@@ -21,8 +21,7 @@
         <!-- Style Includes -->
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-        <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-        <link rel="stylesheet" href="{{ URL::asset('css/login_style.css') }}">
+        <link rel="stylesheet" href="{{ URL::asset('css/projectview_style.css') }}">
 
         <!-- Include Favicons -->
         <link rel="apple-touch-icon" sizes="180x180" href="{{ URL::asset('assets/favicons/apple-touch-icon.png') }}">
@@ -36,18 +35,25 @@
         <meta name="msapplication-TileColor" content="#2b5797">
         <meta name="msapplication-config" content="{{ URL::asset('assets/favicons/browserconfig.xml') }}">
         <meta name="theme-color" content="#060d21">
-
     </head>
-    <body class="login_body">
-        <div class="login_background_image"></div>
-        <div class="login_background">
-            <div class="middle_man">
-                @yield('content')
+    <body>
+        <nav class="navbar navbar">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="/dashboard"><i class="fas fa-angle-double-left"></i> Back</a>
             </div>
-        </div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <td><a>{{ $Project->name }}</a></td>
+                        <td><a>{{ $Project->version }}</a></td>
+                        <td><a>{{ $Project->status }}</a></td>
+                    </tr>
+                </thead>
+            </table>
+        </nav>
 
-        <!-- Initialize Scroll Animations -->
-        <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
-        <script>AOS.init();</script>
+        <div class="embed_holder">
+            <embed src="{{ resource_path('Projects/TestP/public') }}" style="width: 100%; height: calc(100vh - 50px);">
+        </div>
     </body>
 </html>

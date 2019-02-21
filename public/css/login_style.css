@@ -1,4 +1,4 @@
-@import url(https://fonts.googleapis.com/css?family=Publica+Sans);@import url(https://fonts.googleapis.com/css?family=Publica+Sans:100);@import url(https://fonts.googleapis.com/css?family=Roboto:300);@charset "UTF-8";
+@import url(https://fonts.googleapis.com/css?family=Roboto);@import url(https://fonts.googleapis.com/css?family=Roboto:100);@import url(https://fonts.googleapis.com/css?family=Roboto:300);@charset "UTF-8";
 /* ALL ELEMENTS */
 html {
   min-width: 100%;
@@ -46,7 +46,7 @@ body {
 .middle_man {
   display: table-cell;
   vertical-align: middle;
-  padding: 35px;
+  padding: 10px;
 }
 
 .centered {
@@ -72,7 +72,7 @@ body {
 }
 
 .login_form {
-  background: linear-gradient(to bottom, #7678ff 0%, #ad53f3 100%);
+  background: linear-gradient(to bottom, #ff9999 0%, #173b75 100%);
   box-shadow: 3px 3px 5px 0px rgba(0, 0, 0, 0.2);
   padding: 30px;
   font-family: "Roboto" !important;
@@ -120,25 +120,25 @@ body {
 }
 
 .login_form .form-group input::-webkit-input-placeholder {
-  color: white;
+  color: lightgray;
   font-family: "Roboto" !important;
   font-weight: 300 !important;
 }
 
 .login_form .form-group input:-ms-input-placeholder {
-  color: white;
+  color: lightgray;
   font-family: "Roboto" !important;
   font-weight: 300 !important;
 }
 
 .login_form .form-group input::-ms-input-placeholder {
-  color: white;
+  color: lightgray;
   font-family: "Roboto" !important;
   font-weight: 300 !important;
 }
 
 .login_form .form-group input::placeholder {
-  color: white;
+  color: lightgray;
   font-family: "Roboto" !important;
   font-weight: 300 !important;
 }
@@ -205,7 +205,7 @@ body {
 
 .invalid-feedback {
   text-align: center;
-  color: red;
+  color: white;
 }
 
 .help-block {
@@ -223,51 +223,80 @@ body {
 }
 
 /* CHECKBOX STYLING */
-input[type=checkbox] + label {
-  display: inline;
-  margin: 0.2em;
-  cursor: pointer;
-  padding: 0.2em;
-}
-
-input[type=checkbox] {
-  display: none;
-}
-
-input[type=checkbox] + label:before {
-  content: "\2714";
-  border: 2px solid rgba(255, 255, 255, 0.8);
-  border-radius: 3px;
+#remember_me {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
   display: inline-block;
-  margin-right: 8px;
-  vertical-align: bottom;
-  color: transparent;
-  transition: 0.2s;
-  font-size: 8px;
-  padding: 0px 4px;
-  margin-bottom: 1px;
-}
-
-input[type=checkbox] + label:active:before {
-  -webkit-transform: scale(0);
-          transform: scale(0);
-}
-
-input[type=checkbox]:checked + label:before {
-  background-color: white;
-  border-color: white;
+  position: relative;
+  background-color: #f1f1f1;
   color: #333;
+  top: 3px;
+  padding: 8px;
+  border: 0;
+  border-radius: 3px;
+  cursor: pointer;
+  margin-right: 7px;
+  outline: none;
 }
 
-input[type=checkbox]:disabled + label:before {
-  -webkit-transform: scale(1);
-          transform: scale(1);
-  border-color: #aaa;
+#remember_me::before {
+  position: absolute;
+  font: 10px/1 "Open Sans", sans-serif;
+  font-weight: bolder;
+  left: 4.5px;
+  top: 3px;
+  content: "\2143";
+  -webkit-transform: scale(0) rotate(40deg);
+          transform: scale(0) rotate(40deg);
+  opacity: 1;
+  transition: 0.3s;
 }
 
-input[type=checkbox]:checked:disabled + label:before {
-  -webkit-transform: scale(1);
-          transform: scale(1);
-  background-color: #bfb;
-  border-color: #bfb;
+#remember_me:checked::before {
+  opacity: 1;
+  -webkit-transform: scale(1) rotate(40deg);
+          transform: scale(1) rotate(40deg);
+}
+
+#remember_me:hover {
+  background-color: #f7f7f7;
+}
+
+#remember_me:checked {
+  background-color: #f1f1f1;
+}
+
+.remember_me label {
+  font: 300 16px/1.7 "Open Sans", sans-serif;
+  color: lightgray;
+  cursor: pointer;
+  font-size: 14px;
+  transition: 0.3s;
+}
+
+#remember_me:checked + label {
+  color: white;
+}
+
+@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+  #remember_me {
+    width: 16px !important;
+    height: 16px !important;
+    border-radius: 3px;
+  }
+
+  #remember_me:checked::-ms-check {
+    opacity: 1;
+  }
+
+  #remember_me::-ms-check {
+    transition: 0.3s;
+    color: #333;
+    border: none;
+    border-color: white;
+    border-radius: 3px;
+    transform: scale(0.5);
+    opacity: 0;
+  }
 }

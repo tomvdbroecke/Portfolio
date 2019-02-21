@@ -45,8 +45,8 @@
                     </div>
 
                     <div class="remember_me">
-                        <input type="checkbox" id="remember" name="remember" value="Remember me" {{ old('remember') ? 'checked' : '' }}>
-                        <label for="remember">Remember me</label>
+                        <input type="checkbox" id="remember_me" name="remember" value="Remember me" {{ old('remember') ? 'checked' : '' }}></input>
+                        <label for="remember_me">Remember me</label>
                     </div>
 
                     <div class="form-group login_btn_group">

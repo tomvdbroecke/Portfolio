@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use Auth;
+use Session;
+use App\Project;
+use Hash;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -13,7 +17,138 @@ class UserController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('verified');
+        $this->middleware('auth');
+        $this->middleware('isVerified');
         $this->middleware('active');
+    }
+
+    // To dashboard
+    public function dashboard() {
+        return redirect('/dashboard/projects');
+    }
+
+    // To account
+    public function account(Request $request) {
+        return view('dashboard.account', [
+            'User' => Auth::user(),
+            'activePage' => 'account'
+        ]);
+    }
+
+    // Post account
+    public function editAccount(Request $request) {
+        // If password needs to be changed
+        if ($request->has('change_password')) {
+            $cPass = $request->input('current_password');
+            $nPass = $request->input('new_password');
+            $nPassR = $request->input('new_password_repeat');
+
+            // Check if old password was correct
+            if (Hash::check($cPass, Auth::user()->password)) {
+
+                // Check if both passwords are the same
+                if ($nPass == $nPassR) {
+
+                    // Change password and attempt to save
+                    Auth::user()->password = Hash::make($nPass);
+                    $result = Auth::user()->Save();
+
+                    // Redirect properly
+                    if ($result) {
+                        Session::flash('passwordSuccess', "Your password has been changed.");
+                        return redirect('/dashboard/account');
+                    } else {
+                        Session::flash('passwordError', "Your new password could not be saved. Please try again later.");
+                        return redirect('/dashboard/account');
+                    }
+
+                } else {
+                    Session::flash('passwordError', "The 'New Passwords' you've enter did not match.");
+                    return redirect('/dashboard/account');
+                }
+
+            } else {
+                Session::flash('passwordError', "Your 'Current Password' was incorrect.");
+                return redirect('/dashboard/account');
+            }
+        }
+
+        // If email needs to be changed
+        if ($request->has('change_email')) {
+            $nEmail = $request->input('new_email');
+            $nEmailR = $request->input('new_email_repeat');
+
+            // Check if entered emails are valid
+            if (filter_var($nEmail, FILTER_VALIDATE_EMAIL) && filter_var($nEmailR, FILTER_VALIDATE_EMAIL)) {
+
+                // Check if entered emails are the same
+                if ($nEmail == $nEmailR) {
+
+                    // Attempt email change
+                    Auth::user()->email = $nEmail;
+                    Auth::user()->email_verified_at = NULL;
+                    $result = Auth::user()->Save();
+
+                    // Redirect properly
+                    if ($result) {
+                        Session::flash('logoutMessage', "Your e-mail address has been changed to: $nEmail. Please verify your e-mail address before proceeding.");
+                        Auth::logout();
+                        return redirect('/login');
+                    } else {
+                        Session::flash('emailError', "Your new e-mail address could not be saved. Please try again later.");
+                        return redirect('/dashboard/account');
+                    }
+
+                } else {
+                    Session::flash('emailError', "The e-mail addresses you have entered do not match.");
+                    return redirect('/dashboard/account');
+                }
+
+            } else {
+                Session::flash('emailError', "Please enter a valid e-mail address.");
+                return redirect('/dashboard/account');
+            }
+        }
+
+        return view('dashboard.account', [
+            'User' => Auth::user(),
+            'activePage' => 'account'
+        ]);
+    }
+
+    // To projects
+    public function projects(Request $request) {
+        $projects =  Auth::user()->Projects();
+
+        if ($projects[0] == "all") {
+            return view('dashboard.projects', [
+                'User' => Auth::user(),
+                'activePage' => 'projects',
+                'Projects' => Project::all()
+            ]);
+        } else {
+            return view('dashboard.projects', [
+                'User' => Auth::user(),
+                'activePage' => 'projects',
+                'Projects' => Project::whereIn('id', $projects)->get()
+            ]);
+        }
+    }
+
+    // View project
+    public function viewProject(Request $request, $projectName) {
+        $perm = Auth::user()->ProjectPermission($projectName);
+        $project = Project::where('name', $projectName)->first();
+
+        if ($project != NULL) {
+            if ($perm && $projectName == $project->name) {
+                return view('dashboard.viewProject', [
+                    'User' => Auth::user(),
+                    'Project' => $project
+                ]);
+            }
+        }
+
+        return redirect('/dashboard');
     }
 }

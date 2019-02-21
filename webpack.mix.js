@@ -14,6 +14,8 @@ const mix = require('laravel-mix');
 mix.js('resources/js/app.js', 'public/js')
    .sass('resources/sass/app.scss', 'public/css')
    .sass('resources/sass/home_style.scss', 'public/css')
+   .sass('resources/sass/dashboard_style.scss', 'public/css')
+   .sass('resources/sass/projectview_style.scss', 'public/css')
    .sass('resources/sass/login_style.scss', 'public/css');
 
 mix.options({

@@ -1,0 +1,260 @@
+@import url(https://fonts.googleapis.com/css?family=Roboto);
+@import url(https://fonts.googleapis.com/css?family=Roboto:100);
+@import url(https://fonts.googleapis.com/css?family=Roboto:300);
+
+/* ALL ELEMENTS */
+html {
+    min-width: 100%;
+    min-height: 100%;
+    margin: 0px;
+    padding: 0px;
+}
+
+body {
+    min-width: 100%;
+    min-height: 100%;
+    margin: 0px;
+    padding: 0px;
+    overflow-y: hidden;
+}
+
+/* PAGE */
+.dashboard_body {
+    overflow-x: hidden;
+    overflow-y: auto;
+    font-family: "Roboto" !important;
+}
+
+.dashboard_content > .row {
+    max-height: 300px;
+    overflow: hidden;
+    padding-right: 15px;
+}
+
+.dashboard_background_image {
+    width: 100%;
+    min-height: 100%;
+    background: linear-gradient(-45deg, rgba(23,59,117,1) 0%, rgba(255,153,153,1) 100%);
+    text-align: center;
+    display: table;
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+.dashboard_background {
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    display: table;
+    position: absolute;
+    top: 0;
+    left: 0;
+    //overflow: auto;
+}
+
+.middle_man {
+    display: table-cell;
+    vertical-align: middle;
+    padding: 10px;
+}
+
+.centered {
+    margin: 0 auto;
+    max-width: 600px;
+}
+
+.container {
+    padding: 0px;
+}
+
+/* DASHBOARD */
+.dashboard_holder {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 3px 3px 5px 0px rgba(0,0,0,0.2);
+}
+
+.dashboard_head {
+    border-bottom: 1px solid lightgray;
+}
+
+.dashboard_head a {
+    margin-right: 35px;
+}
+
+.dashboard_head i {
+    font-size: 30px;
+    top: 12px;
+    right: 12px;
+    position: absolute;
+}
+
+#side_navbar {
+    padding-right: 0px;
+}
+
+#side_navbar ul {
+    list-style-type: none;
+    width: 100%;
+    height: 100%;
+    padding: 0px;
+    margin: 0px;
+    border-right: 1px solid lightgray;
+}
+
+#side_navbar .sidenav a {
+    width: 100%;
+    padding: 15px 0px;
+    background-color: transparent;
+    text-decoration: none;
+    color: black;
+    display: block;
+    transition: 0.3s;
+}
+
+#side_navbar .sidenav a.active {
+    background-color: rgba(66, 134, 255, 0.8);
+}
+
+#side_navbar .sidenav a:hover {
+    background-color: rgba(66, 134, 255, 0.5);
+}
+
+.dashboard_footer {
+    padding: 10px;
+    border-top: 1px solid lightgray;
+    overflow: hidden;
+}
+
+.btn-logout {
+    float: right;
+    font-size: 12px;
+    background-color: red;
+    border: none !important;
+    box-shadow: none !important;
+    color: white;
+    padding: 5px 15px;
+    border-radius: 10px;
+}
+
+.btn-logout:hover {
+    background-color: orangered;
+}
+
+.btn-logout:focus {
+    background-color: darkred !important;
+}
+
+.btn-logout:active {
+    background-color: darkred !important;
+}
+
+.dashboard_content #content {
+    padding: 0px;
+    overflow-y: auto;
+}
+
+.dashboard_content .account_content {
+    padding: 10px;
+    padding-right: 15px;
+}
+
+.input_label {
+    position: absolute;
+    margin: 6px;
+    padding: 6px;
+    padding-right: 10px;
+    color: black;
+}
+
+.dashboard_content input {
+    width: 98.5%;
+    margin: 5px;
+    border: none;
+    height: 32px;
+    border-bottom: 2px solid rgba(0, 0, 0, 0.5);
+    transition: 0.3s;
+}
+
+.dashboard_content input:disabled {
+    background: transparent !important;
+}
+
+.dashboard_content input:focus {
+    border-bottom: 2px solid rgba(0, 119, 255, 1);
+    box-shadow: none !important;
+    outline: 0 !important;
+}
+
+.input_label + input {
+    padding-left: 35px;
+}
+
+.section_label {
+    text-align: left;
+    margin: 5px;
+    font-weight: bold;
+}
+
+.db_section {
+    display: block;
+    overflow: hidden;
+}
+
+.db_section .submit-block {
+    display: block;
+    margin-top: 10px;
+}
+
+.db_section .help-block {
+    float: left;
+    clear: left;
+    font-size: 12px !important;
+    width: 100%;
+    padding: 10px 2px;
+    border-radius: 3px;
+    text-align: left;
+    margin-left: -10px;
+}
+
+.db_section .help-block.error {
+    color: red;
+}
+
+.db_section .help-block.success {
+    color: green;
+}
+
+.db_section .btn.btn-primary {
+    float: right;
+    clear: right;
+    //padding: 5px 15px;
+    font-size: 15px;
+}
+
+.db_section .btn.btn-primary:focus {
+    box-shadow: none !important;
+    outline: 0 !important;
+}
+
+.projectlist table th {
+    padding: 5px !important;
+}
+
+.projectlist table tbody td {
+    padding: 10px 2px;
+    vertical-align: middle;
+}
+
+.projectlist table tbody tr:hover {
+    background-color: rgba(66, 134, 255, 0.2);
+}
+
+.projectlist table .btn-project {
+    transition: 0.3s;
+}
+
+.projectlist table .btn-project i {
+    font-size: 30px;
+}
