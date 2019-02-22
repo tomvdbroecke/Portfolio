@@ -53,7 +53,12 @@
         </nav>
 
         <div class="embed_holder">
-            <embed src="{{ resource_path('Projects/TestP/public') }}" style="width: 100%; height: calc(100vh - 50px);">
+            <!--
+                CURRENTLY NOT WORKING
+                MAYBE ADD A CUSTOM VIEW?
+                FUCK AROUND WITH ROUTES?
+            -->
+            <embed src="/dashboard/projects/embed/{{ $Project->name }}" style="width: 100%; height: calc(100vh - 50px);">
         </div>
     </body>
 </html>

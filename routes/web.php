@@ -21,6 +21,9 @@ Route::get('/dashboard/projects/{projectName}', ['uses' => 'UserController@viewP
 Route::get('/dashboard/account', 'UserController@account');
 Route::post('/dashboard/account', 'UserController@editAccount');
 
+// Embed route
+Route::get('/dashboard/projects/embed/{projectName}', ['uses' => 'UserController@embedProject', 'as' => 'projectName']);
+
 // User routes
 Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
 Route::post('login', 'Auth\LoginController@login');

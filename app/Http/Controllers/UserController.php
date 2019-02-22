@@ -6,6 +6,7 @@ use Auth;
 use Session;
 use App\Project;
 use Hash;
+use URL;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -146,6 +147,20 @@ class UserController extends Controller
                     'User' => Auth::user(),
                     'Project' => $project
                 ]);
+            }
+        }
+
+        return redirect('/dashboard');
+    }
+
+    // Embed project
+    public function embedProject(Request $request, $projectName) {
+        $perm = Auth::user()->ProjectPermission($projectName);
+        $project = Project::where('name', $projectName)->first();
+
+        if ($project != NULL) {
+            if ($perm && $projectName == $project->name) {
+                return redirect(URL::asset('Projects/TestP/public/index.php'));
             }
         }
 
