@@ -33,7 +33,7 @@
                     <div class="form-group" style="margin-top: 20px;">
                         <div>
                             <i class="fas fa-user login_input_label"></i>
-                            <input id="email" type="email" class="form-control" name="email" placeholder="E-Mail Address" value="{{ old('email') }}" required autofocus></input>
+                            <input id="email" type="email" class="form-control" name="email" placeholder="E-Mail Address" value="{{ old('email') }}" required autofocus>
                         </div>
                     </div>
 
@@ -45,7 +45,7 @@
                     </div>
 
                     <div class="remember_me">
-                        <input type="checkbox" id="remember_me" name="remember" value="Remember me" {{ old('remember') ? 'checked' : '' }}></input>
+                        <input type="checkbox" id="remember_me" name="remember" value="Remember me" checked>
                         <label for="remember_me">Remember me</label>
                     </div>
 
