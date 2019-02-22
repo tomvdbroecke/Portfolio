@@ -39,26 +39,23 @@
     <body>
         <nav class="navbar navbar">
             <div class="navbar-header">
-                <a class="navbar-brand" href="/dashboard"><i class="fas fa-angle-double-left"></i> Back</a>
+                <a class="navbar-brand" href="/dashboard/projects"><i class="fas fa-angle-double-left"></i> Back</a>
             </div>
             <table class="table">
                 <thead>
                     <tr>
-                        <td><a>{{ $Project->name }}</a></td>
+                        <td><a style="font-size: 12px;">Username: {{ $Project->accessUser }}</a></td>
+                        <td><a style="font-size: 12px;">Password: {{ $Project->accessPass }}</a></td>
+                        <!--<td><a>{{ $Project->name }}</a></td>
                         <td><a>{{ $Project->version }}</a></td>
-                        <td><a>{{ $Project->status }}</a></td>
+                        <td><a>{{ $Project->status }}</a></td>-->
                     </tr>
                 </thead>
             </table>
         </nav>
 
         <div class="embed_holder">
-            <!--
-                CURRENTLY NOT WORKING
-                MAYBE ADD A CUSTOM VIEW?
-                FUCK AROUND WITH ROUTES?
-            -->
-            <embed src="/dashboard/projects/embed/{{ $Project->name }}" style="width: 100%; height: calc(100vh - 50px);">
+            <embed src="{{ 'https://www.tomvdbroecke.com/Projects/' . $Project->name . '_public_' . $Project->secretKey }}" style="width: 100%; height: calc(100vh - 50px);">
         </div>
     </body>
 </html>

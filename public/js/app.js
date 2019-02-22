@@ -49135,12 +49135,12 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\xampp\htdocs\Portfolio\resources\js\app.js */"./resources/js/app.js");
-__webpack_require__(/*! C:\xampp\htdocs\Portfolio\resources\sass\app.scss */"./resources/sass/app.scss");
-__webpack_require__(/*! C:\xampp\htdocs\Portfolio\resources\sass\home_style.scss */"./resources/sass/home_style.scss");
-__webpack_require__(/*! C:\xampp\htdocs\Portfolio\resources\sass\dashboard_style.scss */"./resources/sass/dashboard_style.scss");
-__webpack_require__(/*! C:\xampp\htdocs\Portfolio\resources\sass\projectview_style.scss */"./resources/sass/projectview_style.scss");
-module.exports = __webpack_require__(/*! C:\xampp\htdocs\Portfolio\resources\sass\login_style.scss */"./resources/sass/login_style.scss");
+__webpack_require__(/*! S:\XAMPP\htdocs\tomvdbroecke\Portfolio\resources\js\app.js */"./resources/js/app.js");
+__webpack_require__(/*! S:\XAMPP\htdocs\tomvdbroecke\Portfolio\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! S:\XAMPP\htdocs\tomvdbroecke\Portfolio\resources\sass\home_style.scss */"./resources/sass/home_style.scss");
+__webpack_require__(/*! S:\XAMPP\htdocs\tomvdbroecke\Portfolio\resources\sass\dashboard_style.scss */"./resources/sass/dashboard_style.scss");
+__webpack_require__(/*! S:\XAMPP\htdocs\tomvdbroecke\Portfolio\resources\sass\projectview_style.scss */"./resources/sass/projectview_style.scss");
+module.exports = __webpack_require__(/*! S:\XAMPP\htdocs\tomvdbroecke\Portfolio\resources\sass\login_style.scss */"./resources/sass/login_style.scss");
 
 
 /***/ })

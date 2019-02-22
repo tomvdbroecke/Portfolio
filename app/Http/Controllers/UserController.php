@@ -92,6 +92,7 @@ class UserController extends Controller
 
                     // Redirect properly
                     if ($result) {
+                        Auth::user()->SendEmailVerificationNotification();
                         Session::flash('logoutMessage', "Your e-mail address has been changed to: $nEmail. Please verify your e-mail address before proceeding.");
                         Auth::logout();
                         return redirect('/login');
@@ -143,6 +144,7 @@ class UserController extends Controller
 
         if ($project != NULL) {
             if ($perm && $projectName == $project->name) {
+                //return redirect('https://'.$project->accessUser.':'.$project->accessPass.'@tomvdbroecke.com/Projects/'.$project->name.'_public_'.$project->secretKey);
                 return view('dashboard.viewProject', [
                     'User' => Auth::user(),
                     'Project' => $project
@@ -160,7 +162,8 @@ class UserController extends Controller
 
         if ($project != NULL) {
             if ($perm && $projectName == $project->name) {
-                return redirect(URL::asset('Projects/TestP/public/index.php'));
+
+                return redirect('https://'.$project->accessUser.':'.$project->accessPass.'@tomvdbroecke.com/Projects/'.$project->name.'_public_'.$project->secretKey);
             }
         }
 

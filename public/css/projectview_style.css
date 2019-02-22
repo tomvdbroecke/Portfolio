@@ -23,7 +23,7 @@ nav {
 }
 
 nav table {
-  width: 20% !important;
+  width: 30% !important;
   float: right;
   clear: right;
   border-top: 0px !important;
@@ -33,4 +33,5 @@ nav table {
 
 nav table td {
   border: none !important;
+  vertical-align: middle !important;
 }
