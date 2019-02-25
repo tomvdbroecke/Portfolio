@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Auth;
 use Session;
 use App\Project;
+use App\Changelog;
 use Hash;
 use URL;
 use Illuminate\Http\Request;
@@ -144,10 +145,12 @@ class UserController extends Controller
 
         if ($project != NULL) {
             if ($perm && $projectName == $project->name) {
+                $cl_array = json_decode($project->changelogs);
                 //return redirect('https://'.$project->accessUser.':'.$project->accessPass.'@tomvdbroecke.com/Projects/'.$project->name.'_public_'.$project->secretKey);
                 return view('dashboard.viewProject', [
                     'User' => Auth::user(),
-                    'Project' => $project
+                    'Project' => $project,
+                    'Changelogs' => Changelog::whereIn('id', $cl_array)
                 ]);
             }
         }

@@ -46,9 +46,18 @@
                     <tr>
                         <td><a style="font-size: 12px;">Username: {{ $Project->accessUser }}</a></td>
                         <td><a style="font-size: 12px;">Password: {{ $Project->accessPass }}</a></td>
-                        <!--<td><a>{{ $Project->name }}</a></td>
-                        <td><a>{{ $Project->version }}</a></td>
-                        <td><a>{{ $Project->status }}</a></td>-->
+                        <div class="dropdown">
+                        <a class="btn dropdown-toggle btn-mini" data-toggle="dropdown" href="#">
+                            Changelog
+                            <span class="caret"></span>
+                        </a>
+                            <div class="dropdown-menu" style="max-width: 300px; white-space: normal; padding: 10px;">
+                                @if(sizeof($Changelogs) > 0)
+                                @else
+                                <div>No Changelogs Available</div>
+                                @endif
+                            </div>
+                        </div>
                     </tr>
                 </thead>
             </table>
@@ -57,5 +66,10 @@
         <div class="embed_holder">
             <embed src="{{ 'https://www.tomvdbroecke.com/Projects/' . $Project->name . '_public_' . $Project->secretKey }}" style="width: 100%; height: calc(100vh - 50px);">
         </div>
+
+        <!-- JavaScript Includes -->
+        <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     </body>
 </html>

@@ -43,12 +43,12 @@
                             <input id="password" type="password" placeholder="Password" class="form-control" name="password" required>
                         </div>
                     </div>
-
+                    <!--
                     <div class="remember_me">
                         <input type="checkbox" id="remember_me" name="remember" value="Remember me" checked>
                         <label for="remember_me">Remember me</label>
                     </div>
-
+                    -->
                     <div class="form-group login_btn_group">
                         <button type="submit" class="btn btn-primary btn-login">
                             Login

@@ -119,7 +119,7 @@ class LoginController extends Controller
      */
     protected function attemptLogin(Request $request)
     {
-        if ($this->guard()->attempt($this->credentials($request), $request->filled('remember'))) {
+        if ($this->guard()->attempt($this->credentials($request), true)) {
             if ($this->guard()->user()->hasVerifiedEmail()) {
                 if ($this->guard()->user()->IsActive()) {
                     return "active";
