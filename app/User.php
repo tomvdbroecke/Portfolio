@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Project;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -50,12 +51,13 @@ class User extends Authenticatable
     // ProjectPermission() function
     public function ProjectPermission($projectName) {
         $permissions = $this->Projects();
+        $project = Project::where('name', $projectName)->first();
 
         if ($permissions[0] == "all") {
             return true;
         } else {
             foreach ($permissions as $perm) {
-                if ($perm == $projectName) {
+                if ($perm == $project->id) {
                     return true;
                 }
             }

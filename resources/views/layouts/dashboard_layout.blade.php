@@ -69,6 +69,8 @@
                                 <ul class="sidenav">
                                     <li><a href="/dashboard/account"{{ $activePage === "account" ? ' class=active' : '' }}>Account</a></li>
                                     <li><a href="/dashboard/projects"{{ $activePage === "projects" ? ' class=active' : '' }}>Projects</a></li>
+                                    @if($User->IsAdmin())
+                                    @endif
                                 </ul>
                             </div>
                             <div id="content" class="col-8 col-sm-8">

@@ -16,8 +16,8 @@
             @foreach($Projects as $project)
                 <tr>
                     <td>{{ $project->name }}</td>
-                    <td>{{ $project->status }}</td>
                     <td>{{ $project->version }}</td>
+                    <td>{{ $project->status }}</td>
                     <td><a class="btn-project" href="/dashboard/projects/{{ $project->name }}"><i class="fas fa-eye"></i></a></td>
                 </tr>
             @endforeach

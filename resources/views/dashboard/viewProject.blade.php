@@ -53,7 +53,7 @@
             <span class="navbar-toggler-icon"></span>
         </button>
 
-        <ul class="navbar-nav mr-auto">
+        <ul class="navbar-nav mr-auto" style="margin-top: 3px;">
         <li style="margin-right: 10px; margin-left: 5px;"><a>Username: {{ $Project->accessUser }}</a></li>
         <li style="margin-right: 10px; margin-left: 5px;"><a>Password: {{ $Project->accessPass }}</a></li>
         </ul>
