@@ -5,7 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Auth;
 
-class IsVerified
+class IsAdmin
 {
     /**
      * Handle an incoming request.
@@ -16,12 +16,10 @@ class IsVerified
      */
     public function handle($request, Closure $next)
     {
-        if (Auth::check() && Auth::user()->hasVerifiedEmail()) {
+        if (Auth::check() && Auth::user()->IsAdmin()) {
             return $next($request);
         }
 
-        auth()->logout();
-        Session::flash('logoutInactive', 'Your e-mail address is still unvalidated. Please validate your e-mail address before loging in.');
-        return redirect('/login');
+        return redirect()->back();
     }
 }

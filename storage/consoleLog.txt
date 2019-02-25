@@ -1,0 +1,4 @@
+Rolling back: 2019_02_20_112214_create_changelogs_table
+Rolled back:  2019_02_20_112214_create_changelogs_table
+Migrating: 2019_02_20_112214_create_changelogs_table
+Migrated:  2019_02_20_112214_create_changelogs_table

@@ -269,3 +269,59 @@ body {
 .projectlist table .btn-project i {
     font-size: 30px;
 }
+
+/* Admin Area */
+.console {
+    text-align: left;
+    overflow-x: hidden;
+    overflow-y: auto;
+    background: #111;
+    color: white !important;
+    height: 300px;
+}
+
+.table-console th {
+    color: white !important;
+}
+
+.table-console td {
+    padding: 0px;
+    padding-left: 5px;
+    color: white !important;
+    border: none !important;
+    font-size: 12px;
+}
+
+.console input {
+    background: transparent;
+    width: 78% !important;
+    border-color: white;
+    border-radius: 0px !important;
+    padding-left: 15px !important;
+    color: white !important;
+}
+
+.console form {
+    position: absolute;
+    bottom: 0;
+    width: 410px;
+}
+
+.console input:focus {
+    background: transparent !important;
+}
+
+.console i {
+    color: white !important;
+    margin: 0px !important;
+}
+
+.console button {
+    padding: 5px 12px;
+    border-radius: 0px;
+}
+
+.console button:focus {
+    outline: none !important;
+    box-shadow: none !important;
+}

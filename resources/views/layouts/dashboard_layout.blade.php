@@ -70,6 +70,7 @@
                                     <li><a href="/dashboard/account"{{ $activePage === "account" ? ' class=active' : '' }}>Account</a></li>
                                     <li><a href="/dashboard/projects"{{ $activePage === "projects" ? ' class=active' : '' }}>Projects</a></li>
                                     @if($User->IsAdmin())
+                                    <li><a href="/dashboard/console"{{ $activePage === "console" ? ' class=active' : '' }}>Console</a></li>
                                     @endif
                                 </ul>
                             </div>
