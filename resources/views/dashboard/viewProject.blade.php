@@ -44,27 +44,51 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <td><a style="font-size: 12px;">Username: {{ $Project->accessUser }}</a></td>
-                        <td><a style="font-size: 12px;">Password: {{ $Project->accessPass }}</a></td>
+                        <td><a style="font-size: 12px; float: right;">Username: {{ $Project->accessUser }}</a></td>
+                        <td><a style="font-size: 12px; float: right;">Password: {{ $Project->accessPass }}</a></td>
                         <div class="dropdown">
-                        <a class="btn dropdown-toggle btn-mini" data-toggle="dropdown" href="#">
-                            Changelog
-                            <span class="caret"></span>
-                        </a>
-                            <div class="dropdown-menu" style="max-width: 300px; white-space: normal; padding: 10px;">
-                                @if(sizeof($Changelogs) > 0)
+                            <a class="btn dropdown-toggle btn-mini" data-toggle="dropdown" href="#">
+                                Changelogs
+                                <span class="caret"></span>
+                            </a>
+                            <div class="dropdown-menu" style="width: 300px; max-height: 500px; overflow-y: auto; white-space: normal; padding: 10px;">
+                                @if($Changelogs != NULL)
+                                    @foreach($Changelogs as $log)
+                                        <div style="font-size: 12px;">
+                                        <p style="font-weight: bold;">{{ $log->version . " | " . date("d-m-Y", strtotime($log->created_at)) }}</span></p>
+                                        {!! $log->changes !!}
+                                        </div>
+                                        <div class="dropdown-divider"></div>
+                                    @endforeach
                                 @else
                                 <div>No Changelogs Available</div>
                                 @endif
                             </div>
                         </div>
+                        @if($Project->additional_info != NULL)
+                        <div class="dropdown">
+                            <a class="btn dropdown-toggle btn-mini" data-toggle="dropdown" href="#">
+                                Info
+                                <span class="caret"></span>
+                            </a>
+                            <div class="dropdown-menu" style="width: 300px; max-height: 500px; overflow-y: auto; white-space: normal; padding: 10px;">
+                                <div style="font-size: 12px;">
+                                {!! $Project->additional_info !!}
+                                </div>
+                            </div>
+                        </div>
+                        @endif
                     </tr>
                 </thead>
             </table>
         </nav>
 
         <div class="embed_holder">
+            @if(preg_match('~MSIE|Internet Explorer~i', $_SERVER['HTTP_USER_AGENT']) || (strpos($_SERVER['HTTP_USER_AGENT'], 'Trident/7.0; rv:11.0') !== false))
+            <iframe style="border: none;" src="{{ 'https://tomvdbroecke.com/Projects/' . $Project->name . '_public_' . $Project->secretKey }}" style="width: 100%; height: calc(100vh - 50px);"></iframe>
+            @else
             <embed src="{{ 'https://www.tomvdbroecke.com/Projects/' . $Project->name . '_public_' . $Project->secretKey }}" style="width: 100%; height: calc(100vh - 50px);">
+            @endif
         </div>
 
         <!-- JavaScript Includes -->

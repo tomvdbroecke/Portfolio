@@ -146,11 +146,17 @@ class UserController extends Controller
         if ($project != NULL) {
             if ($perm && $projectName == $project->name) {
                 $cl_array = json_decode($project->changelogs);
+                if ($cl_array == NULL) {
+                    $cLogs = NULL;
+                } else {
+                    $cLogs = Changelog::whereIn('id', $cl_array)->orderBy('created_at', 'desc')->get();
+                }
+
                 //return redirect('https://'.$project->accessUser.':'.$project->accessPass.'@tomvdbroecke.com/Projects/'.$project->name.'_public_'.$project->secretKey);
                 return view('dashboard.viewProject', [
                     'User' => Auth::user(),
                     'Project' => $project,
-                    'Changelogs' => Changelog::whereIn('id', $cl_array)
+                    'Changelogs' => $cLogs
                 ]);
             }
         }
