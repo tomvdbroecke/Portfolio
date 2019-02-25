@@ -172,6 +172,17 @@ body {
   transition: 0.3s;
 }
 
+.db_note {
+  display: inline;
+  float: left;
+  clear: left;
+  font-size: 12px;
+  color: gray;
+  margin-bottom: 0px;
+  margin-top: 5px;
+  margin-left: 5px;
+}
+
 .dashboard_content input:disabled {
   background: transparent !important;
 }

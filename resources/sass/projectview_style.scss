@@ -22,7 +22,7 @@ body {
 /* NAVBAR */
 nav {
     border-bottom: 1px solid lightgray;
-    height: 50px;
+    //height: 50px;
     display: fixed;
 }
 
@@ -38,4 +38,24 @@ nav table {
 nav table td {
     border: none !important;
     vertical-align: middle !important;
+}
+
+iframe {
+    width: 100% !important;
+    height: calc(100vh - 57px) !important; 
+}
+
+.btn-mini {
+    transition: 0.3s;
+}
+
+.btn-mini {
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+.navbar-toggler {
+    position: absolute;
+    top: 10px;
+    right: 10px;
 }

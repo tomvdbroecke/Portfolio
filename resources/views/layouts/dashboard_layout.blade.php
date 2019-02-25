@@ -3,6 +3,16 @@
     <head>
         <meta charset="utf-8"/>
 
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-134664416-1"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'UA-134664416-1');
+        </script>
+
         <title>Tom van den Broecke - Client Dashboard</title>
 
         <!-- OGP Tags -->
@@ -67,6 +77,7 @@
                         </div>
                     </div>
                     <div class="dashboard_footer">
+                        <p class="db_note">Beta v0.1.23</p>
                         <a class="btn btn-primary btn-logout" href="/logout">Log Out</a>
                     </div>  
                 </div>

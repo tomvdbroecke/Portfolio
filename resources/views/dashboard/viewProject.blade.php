@@ -3,6 +3,16 @@
     <head>
         <meta charset="utf-8"/>
 
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-134664416-1"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'UA-134664416-1');
+        </script>
+
         <title>Tom van den Broecke - {{ $Project->name }}</title>
 
         <!-- OGP Tags -->
@@ -37,57 +47,66 @@
         <meta name="theme-color" content="#060d21">
     </head>
     <body>
-        <nav class="navbar navbar">
-            <div class="navbar-header">
-                <a class="navbar-brand" href="/dashboard/projects"><i class="fas fa-angle-double-left"></i> Back</a>
-            </div>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <td><a style="font-size: 12px; float: right;">Username: {{ $Project->accessUser }}</a></td>
-                        <td><a style="font-size: 12px; float: right;">Password: {{ $Project->accessPass }}</a></td>
-                        <div class="dropdown">
-                            <a class="btn dropdown-toggle btn-mini" data-toggle="dropdown" href="#">
-                                Changelogs
-                                <span class="caret"></span>
-                            </a>
-                            <div class="dropdown-menu" style="width: 300px; max-height: 500px; overflow-y: auto; white-space: normal; padding: 10px;">
-                                @if($Changelogs != NULL)
-                                    @foreach($Changelogs as $log)
-                                        <div style="font-size: 12px;">
-                                        <p style="font-weight: bold;">{{ $log->version . " | " . date("d-m-Y", strtotime($log->created_at)) }}</span></p>
-                                        {!! $log->changes !!}
-                                        </div>
-                                        <div class="dropdown-divider"></div>
-                                    @endforeach
-                                @else
-                                <div>No Changelogs Available</div>
-                                @endif
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="/dashboard/projects"><i class="fas fa-angle-double-left"></i> Back</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <ul class="navbar-nav mr-auto">
+        <li style="margin-right: 10px; margin-left: 5px;"><a>Username: {{ $Project->accessUser }}</a></li>
+        <li style="margin-right: 10px; margin-left: 5px;"><a>Password: {{ $Project->accessPass }}</a></li>
+        </ul>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ml-auto">
+                <div class="dropdown">
+                        <a class="btn dropdown-toggle btn-mini" data-toggle="dropdown" href="#">
+                            Changelogs
+                            <span class="caret"></span>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right" style="width: 300px; max-height: 500px; overflow-y: auto; white-space: normal; padding: 10px;">
+                            @if(sizeof($Changelogs) > 0)
+                                <?php
+                                    $logCount = 0;
+                                ?>
+                                @foreach($Changelogs as $log)
+                                    <?php $logCount += 1; ?>
+                                    <div style="font-size: 12px;">
+                                    <p style="font-weight: bold;">{{ $log->version . " | " . date("d-m-Y", strtotime($log->created_at)) }}</span></p>
+                                    {!! $log->changes !!}
+                                    </div>
+                                    @if($logCount < sizeof($Changelogs))
+                                    <div class="dropdown-divider"></div>
+                                    @endif
+                                @endforeach
+                            @else
+                            <div>No Changelogs Available</div>
+                            @endif
+                        </div>
+                    </div>
+                    @if($Project->additional_info != NULL)
+                    <div class="dropdown">
+                        <a class="btn dropdown-toggle btn-mini" data-toggle="dropdown" href="#">
+                            Info
+                            <span class="caret"></span>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right" style="width: 300px; max-height: 500px; overflow-y: auto; white-space: normal; padding: 10px;">
+                            <div style="font-size: 12px;">
+                            {!! $Project->additional_info !!}
                             </div>
                         </div>
-                        @if($Project->additional_info != NULL)
-                        <div class="dropdown">
-                            <a class="btn dropdown-toggle btn-mini" data-toggle="dropdown" href="#">
-                                Info
-                                <span class="caret"></span>
-                            </a>
-                            <div class="dropdown-menu" style="width: 300px; max-height: 500px; overflow-y: auto; white-space: normal; padding: 10px;">
-                                <div style="font-size: 12px;">
-                                {!! $Project->additional_info !!}
-                                </div>
-                            </div>
-                        </div>
-                        @endif
-                    </tr>
-                </thead>
-            </table>
+                    </div>
+                    @endif
+            </ul>
+        </div>
         </nav>
 
         <div class="embed_holder">
             @if(preg_match('~MSIE|Internet Explorer~i', $_SERVER['HTTP_USER_AGENT']) || (strpos($_SERVER['HTTP_USER_AGENT'], 'Trident/7.0; rv:11.0') !== false))
-            <iframe style="border: none;" src="{{ 'https://tomvdbroecke.com/Projects/' . $Project->name . '_public_' . $Project->secretKey }}" style="width: 100%; height: calc(100vh - 50px);"></iframe>
+            <iframe style="border: none;" src="{{ 'https://tomvdbroecke.com/Projects/' . $Project->name . '_public_' . $Project->secretKey }}" style="width: 100%; height: calc(100vh - 57px);"></iframe>
             @else
-            <embed src="{{ 'https://www.tomvdbroecke.com/Projects/' . $Project->name . '_public_' . $Project->secretKey }}" style="width: 100%; height: calc(100vh - 50px);">
+            <embed src="{{ 'https://www.tomvdbroecke.com/Projects/' . $Project->name . '_public_' . $Project->secretKey }}" style="width: 100%; height: calc(100vh - 57px);">
             @endif
         </div>
 
