@@ -14,6 +14,8 @@ return array(
         'migrate:status',
         'make:model',
         'make:controller',
+        'config:clear',
+        'route:list',
         'env',
     ),
 

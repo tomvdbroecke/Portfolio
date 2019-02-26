@@ -19,9 +19,23 @@ class UserController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
-        $this->middleware('isVerified');
-        $this->middleware('active');
+        $this->middleware('auth')->except('verified');
+        $this->middleware('isVerified')->except('verified');
+        $this->middleware('active')->except('verified');
+    }
+
+    // Verified
+    public function verified(Request $request) {
+        $verified = false;
+        if (Session()->has('verified')) {
+            $verified = Session()->get('verified');
+        }
+
+        if ($verified) {
+            return view('auth.verified');
+        } else {
+            return redirect('/login');
+        }
     }
 
     // To dashboard

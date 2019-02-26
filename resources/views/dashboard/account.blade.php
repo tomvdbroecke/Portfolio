@@ -33,7 +33,6 @@
             </div>
         </form>
     </div>
-    <!--
     <div class="db_section" id="db_changeemail">
         <form action="/dashboard/account" method="post">
             @csrf
@@ -58,7 +57,6 @@
             </div>
         </form>
     </div>
-    -->
 </div>
 @if (Session::has('emailError'))
 <script>
