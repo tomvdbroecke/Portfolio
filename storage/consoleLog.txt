@@ -1,4 +1,141 @@
-Rolling back: 2019_02_20_112214_create_changelogs_table
-Rolled back:  2019_02_20_112214_create_changelogs_table
-Migrating: 2019_02_20_112214_create_changelogs_table
-Migrated:  2019_02_20_112214_create_changelogs_table
+26-02-2019 10:56:29 Input: log:clear
+26-02-2019 10:56:29 Contents of the Console Log have been cleared!
+26-02-2019 10:58:36 Input: commands
+26-02-2019 10:58:36 Artisan Commands:
+26-02-2019 10:58:36 -migrate
+26-02-2019 10:58:36 -migrate:fresh
+26-02-2019 10:58:36 -migrate:install
+26-02-2019 10:58:36 -migrate:refresh
+26-02-2019 10:58:36 -migrate:reset
+26-02-2019 10:58:36 -migrate:rollback
+26-02-2019 10:58:36 -migrate:status
+26-02-2019 10:58:36 -make:model
+26-02-2019 10:58:36 -make:controller
+26-02-2019 10:58:36 -env
+26-02-2019 10:58:36 Custom Commands:
+26-02-2019 10:58:36 -commands
+26-02-2019 10:58:36 -test
+26-02-2019 10:58:36 -log:clear
+26-02-2019 10:58:36 -log:view
+26-02-2019 10:58:36 -setbatch
+26-02-2019 10:58:36 -getbatch
+26-02-2019 10:58:36 -user:get
+26-02-2019 10:58:36 -user:create
+26-02-2019 11:07:51 Input: user:get all
+26-02-2019 11:07:51 1 | Tom | tomvdbroecke@outlook.com | active | verified | admin
+26-02-2019 11:07:51 2 | Bob | bob@bob.nl | active | unverified | user
+26-02-2019 11:07:51 3 | Kees | kees@kees.nl | active | verified | user
+26-02-2019 11:07:51 4 | Henk | henk@tenk.nl | inactive | unverified | user
+26-02-2019 11:07:51 5 | Piet | piet@piet.nl | active | verified | user
+26-02-2019 11:08:23 Input: user:active 2 false
+26-02-2019 11:08:23 Success: User has been updated.
+26-02-2019 11:08:23 2 | Bob | bob@bob.nl | inactive | unverified | user
+26-02-2019 11:08:34 Input: user:active 12 true
+26-02-2019 11:08:34 Error: No user was found with ID: 12
+26-02-2019 11:08:43 Input: user:get all
+26-02-2019 11:08:43 1 | Tom | tomvdbroecke@outlook.com | active | verified | admin
+26-02-2019 11:08:43 2 | Bob | bob@bob.nl | inactive | unverified | user
+26-02-2019 11:08:43 3 | Kees | kees@kees.nl | active | verified | user
+26-02-2019 11:08:43 4 | Henk | henk@tenk.nl | inactive | unverified | user
+26-02-2019 11:08:43 5 | Piet | piet@piet.nl | active | verified | user
+26-02-2019 11:09:19 Input: user:edit:active 4 true
+26-02-2019 11:09:19 Success: User has been updated.
+26-02-2019 11:09:19 4 | Henk | henk@tenk.nl | active | unverified | user
+26-02-2019 11:17:53 Input: user:edit:verified 4 true
+26-02-2019 11:17:53 Success: User has been updated.
+26-02-2019 11:17:53 4 | Henk | henk@tenk.nl | active | verified | user
+26-02-2019 11:18:02 Input: user:edit:verified 4 false
+26-02-2019 11:18:02 Success: User has been updated.
+26-02-2019 11:18:02 4 | Henk | henk@tenk.nl | active | unverified | user
+26-02-2019 11:18:12 Input: user:edit:verified 9 true
+26-02-2019 11:18:12 Error: No user was found with ID: 9
+26-02-2019 11:20:00 Input: user:edit:name 4 Sjaak
+26-02-2019 11:20:00 Error: Invalid format.
+26-02-2019 11:20:00 Format: user:edit:active [id] [active:true/false]
+26-02-2019 11:20:43 Input: user:edit:name 4 Sjaak
+26-02-2019 11:20:43 Error: Invalid format.
+26-02-2019 11:20:43 Format: user:edit:active [id] [name]
+26-02-2019 11:21:37 Input: user:edit:name 4 Sjaak
+26-02-2019 11:21:37 Success: User has been updated.
+26-02-2019 11:21:37 4 | 0 | henk@tenk.nl | active | unverified | user
+26-02-2019 11:22:06 Input: user:edit:name 4 Sjaak
+26-02-2019 11:22:06 Success: User has been updated.
+26-02-2019 11:22:06 4 | Sjaak | henk@tenk.nl | active | unverified | user
+26-02-2019 11:23:54 Input: user:edit:verified 4 true
+26-02-2019 11:23:54 Success: User has been updated.
+26-02-2019 11:23:54 4 | Sjaak | henk@tenk.nl | active | verified | user
+26-02-2019 11:24:23 Input: user:get 4
+26-02-2019 11:24:23 4 | Sjaak | henk@tenk.nl | active | verified | user
+26-02-2019 11:25:15 Input: user:edit:email 4 sjaak@staak.nl
+26-02-2019 11:25:15 Success: User has been updated.
+26-02-2019 11:25:15 4 | Sjaak | sjaak@staak.nl | active | unverified | user
+26-02-2019 11:25:24 Input: user:get 4
+26-02-2019 11:25:24 4 | Sjaak | sjaak@staak.nl | active | unverified | user
+26-02-2019 11:25:39 Input: user:edit:verified 4 true
+26-02-2019 11:25:39 Success: User has been updated.
+26-02-2019 11:25:39 4 | Sjaak | sjaak@staak.nl | active | verified | user
+26-02-2019 11:26:45 Input: user:edit:password 1 sjaak
+26-02-2019 11:26:45 Success: User has been updated.
+26-02-2019 11:26:45 1 | Tom | tomvdbroecke@outlook.com | active | verified | admin
+26-02-2019 11:27:06 Input: user:edit:password 1 test
+26-02-2019 11:27:06 Success: User has been updated.
+26-02-2019 11:27:06 1 | Tom | tomvdbroecke@outlook.com | active | verified | admin
+26-02-2019 11:27:53 Input: user:edit:password -h
+26-02-2019 11:27:53 Format: user:edit:password [id] [password]
+26-02-2019 11:28:03 Input: user:edit:password
+26-02-2019 11:28:03 Error: Invalid format.
+26-02-2019 11:28:03 Format: user:edit:password [id] [password]
+26-02-2019 11:29:32 Input: user:edit:password
+26-02-2019 11:29:32 Error: Invalid format.
+26-02-2019 11:29:32 Format: user:edit:password [id] [password]
+26-02-2019 11:29:55 Input: user:edit:password
+26-02-2019 11:29:55 Error: Invalid format.
+26-02-2019 11:29:55 Format: user:edit:password [id] [password]
+26-02-2019 11:30:37 Input: user:edit:password
+26-02-2019 11:30:37 Format: user:edit:password [id] [password]
+26-02-2019 11:30:56 Input: user:edit:password
+26-02-2019 11:30:56 Format: user:edit:password [id] [password]
+26-02-2019 11:31:44 Input: getbatch
+26-02-2019 11:31:44 1 | 2014_10_12_000000_create_users_table | 1
+26-02-2019 11:31:44 2 | 2014_10_12_100000_create_password_resets_table | 1
+26-02-2019 11:31:44 3 | 2019_02_20_111500_create_projects_table | 1
+26-02-2019 11:31:44 5 | 2019_02_20_112214_create_changelogs_table | 1
+26-02-2019 11:59:20 Input: commands
+26-02-2019 11:59:20 Artisan Commands:
+26-02-2019 11:59:20 -migrate
+26-02-2019 11:59:20 -migrate:fresh
+26-02-2019 11:59:20 -migrate:install
+26-02-2019 11:59:20 -migrate:refresh
+26-02-2019 11:59:20 -migrate:reset
+26-02-2019 11:59:20 -migrate:rollback
+26-02-2019 11:59:20 -migrate:status
+26-02-2019 11:59:20 -make:model
+26-02-2019 11:59:20 -make:controller
+26-02-2019 11:59:20 -env
+26-02-2019 11:59:20 Custom Commands:
+26-02-2019 11:59:20 -commands
+26-02-2019 11:59:20 -test
+26-02-2019 11:59:20 -log:clear
+26-02-2019 11:59:20 -log:view
+26-02-2019 11:59:20 -setbatch
+26-02-2019 11:59:20 -getbatch
+26-02-2019 11:59:20 -user:get
+26-02-2019 11:59:20 -user:create
+26-02-2019 11:59:20 -user:edit:active
+26-02-2019 11:59:20 -user:edit:verified
+26-02-2019 11:59:20 -user:edit:name
+26-02-2019 11:59:20 -user:edit:email
+26-02-2019 11:59:20 -user:edit:password
+26-02-2019 12:26:07 Input: user:get all
+26-02-2019 12:26:07 1 | Tom | tomvdbroecke@outlook.com | active | verified | admin
+26-02-2019 12:26:07 2 | Bob | bob@bob.nl | inactive | unverified | user
+26-02-2019 12:26:07 3 | Kees | kees@kees.nl | active | verified | user
+26-02-2019 12:26:07 4 | Sjaak | sjaak@staak.nl | active | verified | user
+26-02-2019 12:26:07 5 | Piet | piet@piet.nl | active | verified | user
+26-02-2019 12:26:13 Input: user:delete 5
+26-02-2019 12:26:13 Success: User has been removed.
+26-02-2019 12:26:18 Input: user:get all
+26-02-2019 12:26:18 1 | Tom | tomvdbroecke@outlook.com | active | verified | admin
+26-02-2019 12:26:18 2 | Bob | bob@bob.nl | inactive | unverified | user
+26-02-2019 12:26:18 3 | Kees | kees@kees.nl | active | verified | user
+26-02-2019 12:26:18 4 | Sjaak | sjaak@staak.nl | active | verified | user

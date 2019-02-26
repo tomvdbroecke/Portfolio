@@ -20,8 +20,11 @@ Route::get('/dashboard/projects', 'UserController@projects');
 Route::get('/dashboard/projects/{projectName}', ['uses' => 'UserController@viewProject', 'as' => 'projectName']);
 Route::get('/dashboard/account', 'UserController@account');
 Route::post('/dashboard/account', 'UserController@editAccount');
+
+// Admin routes
 Route::get('/dashboard/console', 'AdminController@viewConsole');
 Route::post('/dashboard/console', 'AdminController@enterConsole');
+Route::get('/dashboard/consoleLog', 'AdminController@viewConsoleLog');
 
 // Embed route
 Route::get('/dashboard/projects/embed/{projectName}', ['uses' => 'UserController@embedProject', 'as' => 'projectName']);

@@ -6,6 +6,36 @@ return array(
     */
     'whitelist' => array(
         'migrate',
+        'migrate:fresh',
+        'migrate:install',
+        'migrate:refresh',
+        'migrate:reset',
+        'migrate:rollback',
+        'migrate:status',
+        'make:model',
+        'make:controller',
+        'env',
+    ),
+
+    /**
+    * An array of commands which are self-created.
+    */
+    'custom' => array(
+        'commands',
+        'test',
+        'log:clear',
+        'log:view',
+        'setbatch',
+        'getbatch',
+        'user:get',
+        'user:create',
+        'user:delete',
+        'user:edit:active',
+        'user:edit:verified',
+        'user:edit:name',
+        'user:edit:email',
+        'user:edit:password',
+        'user:projects:get',
     ),
 );
 ?>
