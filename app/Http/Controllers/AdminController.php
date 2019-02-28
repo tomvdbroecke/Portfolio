@@ -78,7 +78,7 @@ class AdminController extends Controller
 
                 $fileResult = Self::unpackProject($pFiles, $pFs, $pName, $secretKey, $accessUser, $accessPass);
 
-                if (!is_string($fileResult)) {
+                if (!is_string($fileResult) && $fileResult) {
                     $project = new Project();
                     $project->name = $pName;
                     $project->version = $pVersion;
@@ -101,6 +101,10 @@ class AdminController extends Controller
                         return Redirect::back();
                     }
                 } else {
+                    if (!is_string($fileResult)) {
+                        Session::flash('submitError', "There was an error uploading your project data.");
+                        return Redirect::back();
+                    }
                     Session::flash('submitError', $fileResult);
                     return Redirect::back();
                 }
@@ -128,40 +132,67 @@ class AdminController extends Controller
         if ($request->has('update_project')) {
             $validation = Validator::make($request->all(), [
                 'project_id' => 'required|numeric',
-                'project_name' => 'required|min:4',
+                //'project_name' => 'required|min:4',
                 'project_version' => 'required|min:4',
                 'project_status' => 'required|min:4',
+                'project_data' => 'nullable|max:1000000|mimes:zip',
             ]);
 
             if (!$validation->fails()) {
                 $pId = $request->input('project_id');
-                $pName = $request->input('project_name');
+                //$pName = $request->input('project_name');
                 $pVersion = $request->input('project_version');
                 $pStatus = $request->input('project_status');
                 $pInfo = $request->input('project_additional_info');
+                if ($request->file('project_data') != NULL) {
+                    $pFiles = $request->project_data;
+                }
     
-                $checkName = Project::where('name', $pName)->first();
-                if ($checkName->id == $pId) {
+                //$checkName = Project::where('name', $pName)->first();
+                //if ($checkName->id == $pId) {
                     $project = Project::where('id', $pId)->first();
-                    $updateArray = array();
-                    $updateArray['name'] = $pName;
-                    $updateArray['version'] = $pVersion;
-                    $updateArray['status'] = $pStatus;
-                    $updateArray['additional_info'] = $pInfo;
-                    $result = $project->Update($updateArray);
-    
-                    if ($result) {
-                        return redirect('/dashboard/projects');
+
+                    if ($request->file('project_data') != NULL) {
+                        $fileResult = Self::overwriteProject($pFiles, $project->folder_structure, $project->name, $project->secretKey, $project->accessUser, $project->accessPass);
                     } else {
-                        Session::flash('submitError', "Your project could not be created.");
+                        $fileResult = true;
+                    }
+
+                    if (!is_string($fileResult) && $fileResult) {
+                        $updateArray = array();
+                        //$updateArray['name'] = $pName;
+                        $updateArray['version'] = $pVersion;
+                        $updateArray['status'] = $pStatus;
+                        $updateArray['additional_info'] = $pInfo;
+                        $result = $project->Update($updateArray);
+        
+                        if ($result) {
+                            if ($request->file('project_data') != NULL) {
+                                return view('dashboard.projectDataUpdated', [
+                                    'User' => Auth::user(),
+                                    'activePage' => 'projects',
+                                    'Project' => Project::where('name', $project->name)->first()
+                                ]);
+                            }
+                            return redirect('/dashboard/projects');
+                        } else {
+                            Session::flash('submitError', "Your project could not be created.");
+                            return Redirect::back();
+                        }
+                    } else {
+                        if (!is_string($fileResult)) {
+                            Session::flash('submitError', "There was an error uploading your project data.");
+                            return Redirect::back();
+                        }
+                        Session::flash('submitError', $fileResult);
                         return Redirect::back();
                     }
-                } else {
-                    Session::flash('submitError', "A project with that name already exists.");
-                    return Redirect::back();
-                }
+                //} else {
+                //   Session::flash('submitError', "A project with that name already exists.");
+                //    return Redirect::back();
+                //}
             } else {
-                Session::flash('submitError', "Your inputs could not be validated. Please try again.");
+                Session::flash('submitError', $validation->errors()->first());
                 return Redirect::back();
             }
         }
@@ -178,6 +209,19 @@ class AdminController extends Controller
                 $result = $project->delete();
 
                 if ($result) {
+                    // Remove project files
+                    $secret = env('CUSTOM_HOST_USER');
+                    if ($project->folder_structure == "laravel") {
+                        Self::rrmdir("/home/$secret/domains/tomvdbroecke.com/Projects/$project->name", true);
+                        Self::rrmdir("/home/$secret/domains/tomvdbroecke.com/public_html/Projects/$project->name" .'_public_' ."$project->secretKey/", true);
+                        Self::rrmdir("/home/$secret/domains/tomvdbroecke.com/.htpasswd/public_html/Projects/".$project->name."_public_$project->secretKey", true);
+                    }
+                    if ($project->folder_structure == "standard") {
+                        Self::rrmdir("/home/$secret/domains/tomvdbroecke.com/public_html/Projects/$project->name" .'_public_' ."$project->secretKey/", true);
+                        Self::rrmdir("/home/$secret/domains/tomvdbroecke.com/.htpasswd/public_html/Projects/".$project->name."_public_$project->secretKey", true);
+                    }
+
+                    // Remove project permissions from users
                     $users = User::all();
                     foreach ($users as $user) {
                         $projects = $user->Projects();
@@ -1133,7 +1177,7 @@ class AdminController extends Controller
     // Unpack project files
     public function unpackProject($zipFile, $folderStructure, $projectName, $secretKey, $accessUser, $accessPass) {
         $secret = env('CUSTOM_HOST_USER');
-        $zipFile->storeAs('Project_Uploads/', $projectName.'.zip');
+        $zipFile->storeAs("Project_Uploads/$projectName/", $projectName.'.zip');
 
         $ZIP_ERROR = [
             ZipArchive::ER_EXISTS => 'File already exists.',
@@ -1148,20 +1192,21 @@ class AdminController extends Controller
           ];
 
         $zip = new ZipArchive;
-        $res = $zip->open(storage_path('app/Project_Uploads/') . $projectName . '.zip');
+        $res = $zip->open(storage_path("app/Project_Uploads/$projectName/") . $projectName . '.zip');
         if ($res === TRUE) {
-            $zip->extractTo(storage_path('app/Project_Uploads/' . $projectName . '_unzipped/'));
+            $zip->extractTo(storage_path("app/Project_Uploads/$projectName/" . $projectName . '_unzipped/'));
             $zip->close();
         } else {
-            Self::nukeDir(storage_path('app/Project_Uploads'));
+            Self::rrmdir(storage_path("app/Project_Uploads/$projectName"), true);
             return "Could not unzip uploaded project files. " . $ZIP_ERROR[$res];
         }
 
+        // If folder structure is laravel
         if ($folderStructure == "laravel") {
-            $unpackedPath = storage_path('app/Project_Uploads/' . $projectName . '_unzipped/');
+            $unpackedPath = storage_path("app/Project_Uploads/$projectName/" . $projectName . '_unzipped/');
 
             if (!file_exists($unpackedPath . '.env')) {
-                Self::nukeDir(storage_path('app/Project_Uploads'));
+                Self::rrmdir(storage_path("app/Project_Uploads/$projectName"), true);
                 return "Wrong directory structure.";
             }
 
@@ -1175,6 +1220,7 @@ class AdminController extends Controller
             $pass = Self::crypt_apr1_md5($accessPass);
             fwrite($htpasswd, "$accessUser:$pass");
 
+            // Edit Index.php
             $indexToEdit = file($unpackedPath . 'public/index.php');
             $indexToEdit = array_map(function($indexToEdit) use ($projectName) {
                 return stristr($indexToEdit,"require __DIR__.'/../vendor/autoload.php';") ? "require __DIR__.'/../../../Projects/$projectName/vendor/autoload.php';\n" : $indexToEdit;
@@ -1188,32 +1234,130 @@ class AdminController extends Controller
             file_put_contents($unpackedPath . 'public/index.php', implode('', $indexToEdit));
 
             // MOVE FILES TO CORRECT FOLDERS
-            Self::rmove($unpackedPath . 'public', "/home/$secret/domains/tomvdbroecke.com/public_html/Projects/$projectName_public_$secretKey/");
-            //rename(storage_path('app/Project_Uploads/' . $projectName . '_unzipped', storage_path("app/Project_Uploads/$projectName")));
-            Self::rmove(storage_path("app/Project_Uploads/$projectName"), "/home/$secret/domains/tomvdbroecke.com/Projects/$projectName");
+            Self::copyr($unpackedPath . 'public', "/home/$secret/domains/tomvdbroecke.com/public_html/Projects/$projectName" .'_public_' ."$secretKey/");
+            Self::copyr(storage_path("app/Project_Uploads/$projectName/" . $projectName . '_unzipped/'), "/home/$secret/domains/tomvdbroecke.com/Projects/$projectName/");
+            Self::rrmdir(storage_path("app/Project_Uploads/$projectName"), true);
 
-            //Self::nukeDir(storage_path('app/Project_Uploads'));
-            //Self::nukeDir(storage_path('/home/'.$secret.'/domains/tomvdbroecke.com/.htpasswd'));
+            return true;
+        }
+
+        // If folder structure is standard
+        if ($folderStructure == "standard") {
+            $unpackedPath = storage_path("app/Project_Uploads/$projectName/" . $projectName . '_unzipped/');
+
+            $addTo_htaccess = "AuthGroupFile /dev/null\nAuthType Basic\nAuthUserFile /home/$secret/domains/tomvdbroecke.com/.htpasswd/public_html/Projects/".$projectName."_public_$secretKey/.htpasswd\nAuthName ".'"Please Authenticate"'."\nrequire valid-user\nErrorDocument 401 ".'"Unauthorized Access"'."\nOptions -Indexes\n";
+            $addTo_htaccess .= file_get_contents($unpackedPath . '.htaccess');
+            file_put_contents($unpackedPath . '.htaccess', $addTo_htaccess);
+
+            // CREATE HTPASSWD
+            mkdir("/home/$secret/domains/tomvdbroecke.com/.htpasswd/public_html/Projects/".$projectName."_public_$secretKey/", 0755, true);
+            $htpasswd = fopen("/home/$secret/domains/tomvdbroecke.com/.htpasswd/public_html/Projects/".$projectName."_public_$secretKey/.htpasswd", 'w');
+            $pass = Self::crypt_apr1_md5($accessPass);
+            fwrite($htpasswd, "$accessUser:$pass");
+
+            Self::copyr(storage_path("app/Project_Uploads/$projectName/" . $projectName . '_unzipped/'), "/home/$secret/domains/tomvdbroecke.com/public_html/Projects/$projectName" .'_public_' ."$secretKey/");
+            Self::rrmdir(storage_path("app/Project_Uploads/$projectName"), true);
+
+            return true;
         }
     }
 
-    // Nuke dir
-    public function nukeDir($path) {
-        $files = glob($path . '/*');
-        foreach ($files as $file) {
-            is_dir($file) ? Self::clearDir($file) : unlink($file);
+    // Overwrite project files <--- WRITE THIS
+    public function overwriteProject($zipFile, $folderStructure, $projectName, $secretKey, $accessUser, $accessPass) {
+        $secret = env('CUSTOM_HOST_USER');
+        $zipFile->storeAs("Project_Uploads/$projectName/", $projectName.'.zip');
+
+        $ZIP_ERROR = [
+            ZipArchive::ER_EXISTS => 'File already exists.',
+            ZipArchive::ER_INCONS => 'Zip archive inconsistent.',
+            ZipArchive::ER_INVAL => 'Invalid argument.',
+            ZipArchive::ER_MEMORY => 'Malloc failure.',
+            ZipArchive::ER_NOENT => 'No such file.',
+            ZipArchive::ER_NOZIP => 'Not a zip archive.',
+            ZipArchive::ER_OPEN => "Can't open file.",
+            ZipArchive::ER_READ => 'Read error.',
+            ZipArchive::ER_SEEK => 'Seek error.',
+          ];
+
+        $zip = new ZipArchive;
+        $res = $zip->open(storage_path("app/Project_Uploads/$projectName/") . $projectName . '.zip');
+        if ($res === TRUE) {
+            $zip->extractTo(storage_path("app/Project_Uploads/$projectName/" . $projectName . '_unzipped/'));
+            $zip->close();
+        } else {
+            Self::rrmdir(storage_path("app/Project_Uploads/$projectName"), true);
+            return "Could not unzip uploaded project files. " . $ZIP_ERROR[$res];
         }
-        return;
+
+        // If folder structure is laravel
+        if ($folderStructure == "laravel") {
+            $unpackedPath = storage_path("app/Project_Uploads/$projectName/" . $projectName . '_unzipped/');
+
+            if (!file_exists($unpackedPath . '.env')) {
+                Self::rrmdir(storage_path("app/Project_Uploads/$projectName"), true);
+                return "Wrong directory structure.";
+            }
+
+            // Edit .htaccess
+            $addTo_htaccess = "AuthGroupFile /dev/null\nAuthType Basic\nAuthUserFile /home/$secret/domains/tomvdbroecke.com/.htpasswd/public_html/Projects/".$projectName."_public_$secretKey/.htpasswd\nAuthName ".'"Please Authenticate"'."\nrequire valid-user\nErrorDocument 401 ".'"Unauthorized Access"'."\nOptions -Indexes\n";
+            $addTo_htaccess .= file_get_contents($unpackedPath . 'public/.htaccess');
+            file_put_contents($unpackedPath . 'public/.htaccess', $addTo_htaccess);
+
+            // Edit Index.php
+            $indexToEdit = file($unpackedPath . 'public/index.php');
+            $indexToEdit = array_map(function($indexToEdit) use ($projectName) {
+                return stristr($indexToEdit,"require __DIR__.'/../vendor/autoload.php';") ? "require __DIR__.'/../../../Projects/$projectName/vendor/autoload.php';\n" : $indexToEdit;
+              }, $indexToEdit);
+            file_put_contents($unpackedPath . 'public/index.php', implode('', $indexToEdit));
+
+            $indexToEdit = file($unpackedPath . 'public/index.php');
+            $indexToEdit = array_map(function($indexToEdit) use ($projectName) {
+                return stristr($indexToEdit, '$app = ' . "require_once __DIR__.'/../bootstrap/app.php';") ? '$app = ' . "require_once __DIR__.'/../../../Projects/$projectName/bootstrap/app.php';\n" : $indexToEdit;
+              }, $indexToEdit);
+            file_put_contents($unpackedPath . 'public/index.php', implode('', $indexToEdit));
+
+            // MOVE FILES TO CORRECT FOLDERS
+            Self::rrmdir("/home/$secret/domains/tomvdbroecke.com/Projects/$projectName", true);
+            Self::rrmdir("/home/$secret/domains/tomvdbroecke.com/public_html/Projects/$projectName" .'_public_' ."$secretKey/", true);
+            Self::copyr($unpackedPath . 'public', "/home/$secret/domains/tomvdbroecke.com/public_html/Projects/$projectName" .'_public_' ."$secretKey/");
+            Self::copyr(storage_path("app/Project_Uploads/$projectName/" . $projectName . '_unzipped/'), "/home/$secret/domains/tomvdbroecke.com/Projects/$projectName/");
+            Self::rrmdir(storage_path("app/Project_Uploads/$projectName"), true);
+
+            return true;
+        }
+
+        // If folder structure is standard
+        if ($folderStructure == "standard") {
+            $unpackedPath = storage_path("app/Project_Uploads/$projectName/" . $projectName . '_unzipped/');
+
+            $addTo_htaccess = "AuthGroupFile /dev/null\nAuthType Basic\nAuthUserFile /home/$secret/domains/tomvdbroecke.com/.htpasswd/public_html/Projects/".$projectName."_public_$secretKey/.htpasswd\nAuthName ".'"Please Authenticate"'."\nrequire valid-user\nErrorDocument 401 ".'"Unauthorized Access"'."\nOptions -Indexes\n";
+            $addTo_htaccess .= file_get_contents($unpackedPath . '.htaccess');
+            file_put_contents($unpackedPath . '.htaccess', $addTo_htaccess);
+
+            Self::rrmdir("/home/$secret/domains/tomvdbroecke.com/public_html/Projects/$projectName" .'_public_' ."$secretKey/", true);
+            Self::copyr(storage_path("app/Project_Uploads/$projectName/" . $projectName . '_unzipped/'), "/home/$secret/domains/tomvdbroecke.com/public_html/Projects/$projectName" .'_public_' ."$secretKey/");
+            Self::rrmdir(storage_path("app/Project_Uploads/$projectName"), true);
+
+            return true;
+        }
     }
 
-    // Clear dir (clears a single directory and the directory)
-    public function clearDir($path) {
-        $files = glob($path . '/*');
-        foreach ($files as $file) {
-            is_dir($file) ? Self::clearDir($file) : unlink($file);
-        }
-        rmdir($path);
-        return;
+    // Remove dir
+    function rrmdir($dir, $remSelf) { 
+        if (is_dir($dir)) { 
+            $objects = scandir($dir); 
+            foreach ($objects as $object) { 
+                if ($object != "." && $object != "..") { 
+                    if (is_dir($dir."/".$object))
+                    Self::rrmdir($dir."/".$object, true);
+                    else
+                    unlink($dir."/".$object); 
+                } 
+            }
+            if ($remSelf) {
+                rmdir($dir); 
+            }
+        } 
     }
 
     // APR1-MD5 encryption method (windows compatible)
@@ -1250,148 +1394,27 @@ class AdminController extends Controller
         return "$"."apr1"."$".$salt."$".$tmp;
     }
 
-    /**
-     * Recursively move files from one directory to another
-     * 
-     * @param String $src - Source of files being moved
-     * @param String $dest - Destination of files being moved
-     */
-    /*
-    function rmove($src, $dest) {
-
-        // If source is not a directory stop processing
-        if(!is_dir($src)) return false;
-
-        // If the destination directory does not exist create it
-        if(!is_dir($dest)) { 
-            if(!mkdir($dest)) {
-                // If the destination directory could not be created stop processing
-                return false;
-            }    
+    public function copyr($source, $dest)
+    {
+        if (is_link($source)) {
+            return symlink(readlink($source), $dest);
         }
-
-        // Open the source directory to read in files
-        $i = new DirectoryIterator($src);
-        foreach($i as $f) {
-            if($f->isFile()) {
-                rename($f->getPath(), "$dest/" . $f->getFilename());
-            } else if(!$f->isDot() && $f->isDir()) {
-                Self::move($f->getPath(), "$dest/$f");
-                unlink($f->getPath());
-            }
+        if (is_file($source)) {
+            return copy($source, $dest);
         }
-    }
-    
-    function move($src, $dest) {
-
-        // If source is not a directory stop processing
-        if(!is_dir($src)) return false;
-
-        // If the destination directory does not exist create it
-        if(!is_dir($dest)) { 
-            if(!mkdir($dest)) {
-                // If the destination directory could not be created stop processing
-                return false;
-            }    
+        if (!is_dir($dest)) {
+            mkdir($dest);
         }
-
-        // Open the source directory to read in files
-        $i = new DirectoryIterator($src);
-        foreach($i as $f) {
-            if($f->isFile()) {
-                rename($f->getPath(), "$dest/" . $f->getFilename());
-            } else if(!$f->isDot() && $f->isDir()) {
-                Self::rmove($f->getPath(), "$dest/$f");
-                unlink($f->getPath());
-            }
-        }
-        rmdir($src);
-    }
-    */
-
-    /**
-     * A Recursive directory move that allows exclusions. The excluded items in the src will be deleted
-     * rather than moved.
-     *
-     * @param string $sourceDir    		The fully qualified source directory to copy
-     * @param string $targetDir			The fully qualified destination directory to copy to
-     * @param array $exclusions			An array of preg_match patterns to ignore in the copy process
-     * @throws InvalidArgumentException
-     * @throws ErrorException
-     * @return boolean					Returns TRUE on success, throws an error otherwise.
-     */
-    function rmove($src, $dest, $exclusions = array()){
-        // If source is not a directory stop processing
-        if(!is_dir($src)) throw new InvalidArgumentException('The source passed in does not appear to be a valid directory: ['.$src.']', 1);
-        // If the destination directory does not exist create it
-        if(!is_dir($dest)) {
-            if(!mkdir($dest, 0, true)){
-                throw new InvalidArgumentException('The destination does not exist, and I can not create it: ['.$dest.']', 2);
-            }
-        }
-        // Ensure enclusions parameter is an array.
-        if (! is_array($exclusions)) throw new InvalidArgumentException('The exclustion parameter is not an array, it MUST be an array.', 3);
-        $emptiedDirs = array();
-        // Open the source directory to read in files
-        foreach(new RecursiveIteratorIterator(new RecursiveDirectoryIterator($src, FilesystemIterator::SKIP_DOTS), RecursiveIteratorIterator::CHILD_FIRST) as $f) {
-            // Check to see if we should ignore this file or directory
-            foreach ($exclusions as $pattern){
-                if (preg_match($pattern, $f->getPath())){
-                    if ($f->isFile()){
-                        if (! unlink($f->getPath()))  throw new ErrorException("Failed to delete file [{$f->getPath()}] ", 4);
-                    }elseif($f->isDir()){
-                        // we will attempt deleting these after we have moved all the files.
-                        array_push($emptiedDirs, $f->getPath());
-                    }
-                    // Because we have to jump up two foreach levels
-                    continue 2;
-                }
-            }
-            // We need to get a path relative to where we are copying from
-            $relativePath = str_replace($src, '', $f->getPath());
-            // And we can create a destination now.
-            $destination = $dest . $relativePath;
-            // if it is a file, lets just move that sucker over
-            if($f->isFile()) {
-                $path_parts = pathinfo($destination);
-                // If we don't have a directory for this yet
-                if (! is_dir($path_parts['dirname'])){
-                    // Lets create one!
-                    if (! mkdir($path_parts['dirname'], 0, true)) throw new ErrorException("Failed to create the destination directory: [{$path_parts['dirname']}]", 5);
-                }
-                if (! rename($f->getPath(), $destination)) throw new ErrorException("Failed to rename file [{$f->getPath()}] to [$destination]", 6);
-            // if it is a directory, lets handle it
-            }elseif($f->isDir()){
-                // Check to see if the destination directory already exists
-                if (! is_dir($destination)){
-                    if (! mkdir($destination, 0, true)) throw new ErrorException("Failed to create the destination directory: [$destination]", 7);
-                }
-                // we will attempt deleting these after we have moved all the files.
-                array_push($emptiedDirs, $f->getPath());
-            // if it is something else, throw a fit. Symlinks can potentially end up here. I haven't tested them yet, but I think isFile() will typically
-            // just pick them up and work
-            }else{
-                if ($f->getPath() != $src) {
-                    throw new ErrorException("I found [{$f->getPath()}] yet it appears to be neither a directory nor a file. I don't know what to do with that! Src: [$src]", 8);
-                }
-            }
-        }
-        foreach ($emptiedDirs as $emptyDir){
-            print "Deleting $emptyDir\n";
-            if (path($emptyDir) == path($src)){
+        $dir = dir($source);
+        while (false !== $entry = $dir->read()) {
+            // Skip pointers
+            if ($entry == '.' || $entry == '..') {
                 continue;
             }
-            if (!is_readable($emptyDir)) throw new ErrorException("The source directory: [$emptyDir] is not Readable", 9);
-            // Delete the old directory
-            if (! rmdir($emptyDir)){
-                // The directory is empty, we should have successfully deleted it.
-                if ((count(scandir($emptyDir)) == 2)){
-                    throw new ErrorException("Failed to delete the source directory: [$emptyDir]", 10);
-                }
-            }
+
+            Self::copyr("$source/$entry", "$dest/$entry");
         }
-        // Finally, delete the base of the source directory we just recursed through
-        //if (! rmdir($src)) throw new ErrorException("Failed to delete the base source directory: [$src]", 11);
+        $dir->close();
         return true;
     }
 }

@@ -3,7 +3,7 @@
 @section('content')
 <div class="account_content">
     <div class="db_section">
-        <form action="/dashboard/projects/edit" method="post">
+        <form action="/dashboard/projects/edit" method="post" enctype="multipart/form-data">
             @csrf
             <div class="form-group">
                 <div class="label_head">
@@ -13,7 +13,7 @@
                 <input type="hidden" name="project_id" value="{{ $Project->id }}">
                 <div class="input_block">
                     <i class="fas fa-font input_label"></i>
-                    <input name="project_name" type="text" minlength="4" placeholder="Project Name" value="{{ $Project->name }}" required>
+                    <input name="project_name" type="text" minlength="4" placeholder="Project Name" value="{{ $Project->name }}" disabled>
                     <i class="fas fa-code-branch input_label"></i>
                     <input name="project_version" type="text" minlength="4" placeholder="Version" value="{{ $Project->version }}" required>
                     <i class="fas fa-question-circle input_label"></i>
@@ -21,6 +21,8 @@
                     <select class="form-control" name="project_folder_structure" disabled>
                         <option value="" disabled selected>{{ ucwords($Project->folder_structure) }}</option>
                     </select>
+                    <label class="project_files_label">Project Files Upload</label>
+                    <input name="project_data" type="file" class="form-control-file" accept="file_extension">
                     <textarea class="form-control" name="project_additional_info" rows="3" placeholder="Additional Info">{{ $Project->additional_info }}</textarea>
                 </div>
                 <div class="submit-block">
