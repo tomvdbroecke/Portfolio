@@ -66,7 +66,7 @@
                             <span class="caret"></span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right" style="width: 300px; max-height: 500px; overflow-y: auto; white-space: normal; padding: 10px;">
-                            @if(sizeof($Changelogs) > 0)
+                            @if($Changelogs != NULL)
                                 <?php
                                     $logCount = 0;
                                 ?>

@@ -144,10 +144,16 @@ class UserController extends Controller
                 'Projects' => Project::all()
             ]);
         } else {
+            if ($projects == NULL) {
+                $projectList = array();
+            } else {
+                $projectList = Project::whereIn('id', $projects)->get();
+            }
+
             return view('dashboard.projects', [
                 'User' => Auth::user(),
                 'activePage' => 'projects',
-                'Projects' => Project::whereIn('id', $projects)->get()
+                'Projects' => $projectList
             ]);
         }
     }

@@ -1206,7 +1206,7 @@ class AdminController extends Controller
         return;
     }
 
-    // Clear dir (clears a single directory and the directory)`
+    // Clear dir (clears a single directory and the directory)
     public function clearDir($path) {
         $files = glob($path . '/*');
         foreach ($files as $file) {

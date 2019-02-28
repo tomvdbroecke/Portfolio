@@ -17,7 +17,7 @@ Route::get('/', 'PageController@home');
 // Dashboard routes
 Route::get('/dashboard', 'UserController@dashboard');
 Route::get('/dashboard/projects', 'UserController@projects');
-Route::get('/dashboard/projects/{projectName}', ['uses' => 'UserController@viewProject', 'as' => 'projectName']);
+Route::get('/dashboard/projects/view/{projectName}', ['uses' => 'UserController@viewProject', 'as' => 'projectName']);
 Route::get('/dashboard/account', 'UserController@account');
 Route::post('/dashboard/account', 'UserController@editAccount');
 
@@ -25,6 +25,11 @@ Route::post('/dashboard/account', 'UserController@editAccount');
 Route::get('/dashboard/console', 'AdminController@viewConsole');
 Route::post('/dashboard/console', 'AdminController@enterConsole');
 Route::get('/dashboard/consoleLog', 'AdminController@viewConsoleLog');
+Route::get('/dashboard/projects/edit/{projectName}', ['uses' => 'AdminController@editProject', 'as' => 'projectName']);
+Route::get('/dashboard/projects/edit', function () { return redirect('/dashboard/projects'); } );
+Route::post('/dashboard/projects/edit', 'AdminController@updateProject');
+Route::get('/dashboard/projects/add', 'AdminController@addProject');
+Route::post('/dashboard/projects/add', 'AdminController@createProject');
 
 // Embed route
 Route::get('/dashboard/projects/embed/{projectName}', ['uses' => 'UserController@embedProject', 'as' => 'projectName']);

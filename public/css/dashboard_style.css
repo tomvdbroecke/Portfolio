@@ -201,6 +201,9 @@ body {
   text-align: left;
   margin: 5px;
   font-weight: bold;
+  float: left;
+  clear: left;
+  width: auto;
 }
 
 .db_section {
@@ -261,7 +264,94 @@ body {
 }
 
 .projectlist table .btn-project i {
-  font-size: 30px;
+  font-size: 20px;
+}
+
+.db_section .newP_info {
+  text-align: left;
+  margin: 5px;
+  font-size: 14px;
+  clear: both;
+  margin-top: 40px !important;
+}
+
+.db_section select.form-control {
+  margin-left: 5px;
+  width: 98.6%;
+  margin-top: 6px;
+  border-radius: 0px;
+  border: 2px solid rgba(0, 0, 0, 0.5);
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+.db_section select.form-control:focus {
+  border-color: #0077ff !important;
+}
+
+.db_section textarea {
+  padding: 10px !important;
+  font-size: 14px;
+  border-radius: 0px;
+  border: 2px solid rgba(0, 0, 0, 0.5) !important;
+  margin-left: 5px;
+  width: 98.7% !important;
+  transition: 0.3s;
+  margin-top: 10px !important;
+  transition: 0.3s;
+}
+
+.db_section label.project_files_label {
+  font-size: 12px;
+  font-weight: bold;
+  text-align: left;
+  width: 100%;
+  margin-left: 5px;
+  margin-top: 10px;
+  margin-bottom: -5px !important;
+}
+
+.db_section input.form-control-file {
+  margin-top: 0px !important;
+  border: none !important;
+}
+
+.db_section textarea:focus {
+  outline: 0 !important;
+  box-shadow: none !important;
+  border-color: #0077ff !important;
+}
+
+.db_section .newP_info p {
+  margin-bottom: 10px;
+}
+
+.db_section .label_head {
+  display: block;
+  overflow: hidden;
+}
+
+.db_section .btn-delete {
+  padding: 3px 15px !important;
+  font-size: 12px !important;
+  background-color: red;
+  border: none !important;
+  outline: none !important;
+  border-radius: 5px !important;
+  display: inline-block;
+  margin-top: 5px;
+}
+
+.db_section .btn-delete:focus, .db_section .btn-delete:active {
+  background-color: darkred !important;
+}
+
+.db_section .btn-delete:hover {
+  background-color: orangered !important;
+}
+
+.projectlist table {
+  margin-bottom: 0px;
 }
 
 /* Admin Area */

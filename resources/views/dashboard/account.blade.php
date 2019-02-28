@@ -6,7 +6,9 @@
         <form action="/dashboard/account" method="post">
             @csrf
             <div class="form-group">
-                <p class="section_label">Change Password</p>
+                <div class="label_head">
+                    <p class="section_label">Change Password</p>
+                </div>
                 <i class="fas fa-lock input_label"></i>
                 <input name="current_password" type="password" placeholder="Current Password" required>
                 <i class="fas fa-unlock input_label"></i>
@@ -37,7 +39,9 @@
         <form action="/dashboard/account" method="post">
             @csrf
             <div class="form-group">
-                <p class="section_label">Change Email</p>
+                <div class="label_head">
+                    <p class="section_label">Change Email</p>
+                </div>
                 <i class="fas fa-envelope input_label"></i>
                 <input name="current_email" type="email" value="{{ $User->email }}" disabled>
                 <i class="fas fa-envelope-open input_label"></i>

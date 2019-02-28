@@ -38,6 +38,9 @@ return array(
         'user:edit:email',
         'user:edit:password',
         'user:projects:get',
+        'user:projects:add',
+        'user:projects:remove',
+        'project:get',
     ),
 );
 ?>

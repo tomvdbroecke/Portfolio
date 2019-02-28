@@ -21,6 +21,7 @@ class CreateProjectsTable extends Migration
             $table->string('name')->unique();
             $table->string('status');
             $table->string('version');
+            $table->string('folder_structure')->default('standard');
             $table->string('secretKey')->default(substr(preg_replace('/[^\w]/','',base64_encode(sha1(rand(0, 100000)))),0,12));
             $table->string('accessUser')->default($wordlist[array_rand($wordlist)]);
             $table->string('accessPass')->default($wordlist[array_rand($wordlist)]);
