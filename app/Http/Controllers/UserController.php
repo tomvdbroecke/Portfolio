@@ -55,74 +55,95 @@ class UserController extends Controller
     public function editAccount(Request $request) {
         // If password needs to be changed
         if ($request->has('change_password')) {
-            $cPass = $request->input('current_password');
-            $nPass = $request->input('new_password');
-            $nPassR = $request->input('new_password_repeat');
+            $validation = Validator::make($request->all(), [
+                'current_password' => 'required|min:4',
+                'new_password' => 'required|min:4',
+                'new_password_repeat' => 'required|min:4',
+            ]);
 
-            // Check if old password was correct
-            if (Hash::check($cPass, Auth::user()->password)) {
+            if (!$validation->fails()) {
+                $cPass = $request->input('current_password');
+                $nPass = $request->input('new_password');
+                $nPassR = $request->input('new_password_repeat');
 
-                // Check if both passwords are the same
-                if ($nPass == $nPassR) {
+                // Check if old password was correct
+                if (Hash::check($cPass, Auth::user()->password)) {
 
-                    // Change password and attempt to save
-                    Auth::user()->password = Hash::make($nPass);
-                    $result = Auth::user()->Save();
+                    // Check if both passwords are the same
+                    if ($nPass == $nPassR) {
 
-                    // Redirect properly
-                    if ($result) {
-                        Session::flash('passwordSuccess', "Your password has been changed.");
-                        return redirect('/dashboard/account');
+                        // Change password and attempt to save
+                        Auth::user()->password = Hash::make($nPass);
+                        $result = Auth::user()->Save();
+
+                        // Redirect properly
+                        if ($result) {
+                            Session::flash('passwordSuccess', "Your password has been changed.");
+                            return redirect('/dashboard/account');
+                        } else {
+                            Session::flash('passwordError', "Your new password could not be saved. Please try again later.");
+                            return redirect('/dashboard/account');
+                        }
+
                     } else {
-                        Session::flash('passwordError', "Your new password could not be saved. Please try again later.");
+                        Session::flash('passwordError', "The 'New Passwords' you've enter did not match.");
                         return redirect('/dashboard/account');
                     }
 
                 } else {
-                    Session::flash('passwordError', "The 'New Passwords' you've enter did not match.");
+                    Session::flash('passwordError', "Your 'Current Password' was incorrect.");
                     return redirect('/dashboard/account');
                 }
-
             } else {
-                Session::flash('passwordError', "Your 'Current Password' was incorrect.");
+                Session::flash('passwordError', "Your inputs could not be validated.");
                 return redirect('/dashboard/account');
             }
         }
 
         // If email needs to be changed
         if ($request->has('change_email')) {
-            $nEmail = $request->input('new_email');
-            $nEmailR = $request->input('new_email_repeat');
+            $validation = Validator::make($request->all(), [
+                'new_email' => 'required|email',
+                'new_email_repeat' => 'required|email',
+            ]);
 
-            // Check if entered emails are valid
-            if (filter_var($nEmail, FILTER_VALIDATE_EMAIL) && filter_var($nEmailR, FILTER_VALIDATE_EMAIL)) {
+            if (!$validation->fails()) {
+                $nEmail = $request->input('new_email');
+                $nEmailR = $request->input('new_email_repeat');
 
-                // Check if entered emails are the same
-                if ($nEmail == $nEmailR) {
+                // Check if entered emails are valid
+                if (filter_var($nEmail, FILTER_VALIDATE_EMAIL) && filter_var($nEmailR, FILTER_VALIDATE_EMAIL)) {
 
-                    // Attempt email change
-                    Auth::user()->email = $nEmail;
-                    Auth::user()->email_verified_at = NULL;
-                    $result = Auth::user()->Save();
+                    // Check if entered emails are the same
+                    if ($nEmail == $nEmailR) {
 
-                    // Redirect properly
-                    if ($result) {
-                        Auth::user()->SendEmailVerificationNotification();
-                        Session::flash('logoutMessage', "Your e-mail address has been changed to: $nEmail. Please verify your e-mail address before proceeding.");
-                        Auth::logout();
-                        return redirect('/login');
+                        // Attempt email change
+                        Auth::user()->email = $nEmail;
+                        Auth::user()->email_verified_at = NULL;
+                        $result = Auth::user()->Save();
+
+                        // Redirect properly
+                        if ($result) {
+                            Auth::user()->SendEmailVerificationNotification();
+                            Session::flash('logoutMessage', "Your e-mail address has been changed to: $nEmail. Please verify your e-mail address before proceeding.");
+                            Auth::logout();
+                            return redirect('/login');
+                        } else {
+                            Session::flash('emailError', "Your new e-mail address could not be saved. Please try again later.");
+                            return redirect('/dashboard/account');
+                        }
+
                     } else {
-                        Session::flash('emailError', "Your new e-mail address could not be saved. Please try again later.");
+                        Session::flash('emailError', "The e-mail addresses you have entered do not match.");
                         return redirect('/dashboard/account');
                     }
 
                 } else {
-                    Session::flash('emailError', "The e-mail addresses you have entered do not match.");
+                    Session::flash('emailError', "Please enter a valid e-mail address.");
                     return redirect('/dashboard/account');
                 }
-
             } else {
-                Session::flash('emailError', "Please enter a valid e-mail address.");
+                Session::flash('emailError', "Your inputs could not be validated.");
                 return redirect('/dashboard/account');
             }
         }

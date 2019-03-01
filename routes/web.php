@@ -33,6 +33,12 @@ Route::post('/dashboard/projects/add', 'AdminController@createProject');
 Route::get('/dashboard/projects/editEnv/{projectName}', ['uses' => 'AdminController@editEnv', 'as' => 'projectName']);
 Route::get('/dashboard/projects/editEnv', function () { return redirect('/dashboard/projects'); } );
 Route::post('/dashboard/projects/editEnv', 'AdminController@updateEnv');
+Route::get('/dashboard/changelogs', 'AdminController@changelogs');
+Route::get('/dashboard/changelogs/add', 'AdminController@addChangelog');
+Route::post('/dashboard/changelogs/add', 'AdminController@createChangelog');
+Route::get('/dashboard/changelogs/edit/{logId}', ['uses' => 'AdminController@editChangelog', 'as' => 'logId']);
+Route::get('/dashboard/changelogs/edit', function () { return redirect('/dashboard/changelogs'); } );
+Route::post('/dashboard/changelogs/edit', 'AdminController@updateChangelog');
 
 // Embed route
 Route::get('/dashboard/projects/embed/{projectName}', ['uses' => 'UserController@embedProject', 'as' => 'projectName']);

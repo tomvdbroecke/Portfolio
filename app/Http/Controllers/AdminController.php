@@ -10,6 +10,7 @@ use DB;
 use Validator;
 use App\User;
 use App\Project;
+use App\Changelog;
 use Hash;
 use Session;
 use Redirect;
@@ -39,6 +40,179 @@ class AdminController extends Controller
         $this->middleware('isVerified');
         $this->middleware('active');
         $this->middleware('isAdmin');
+    }
+
+    // To changelogs
+    public function changelogs(Request $request) {
+        $changelogs = Changelog::all();
+
+        return view('dashboard.changelogs', [
+            'User' => Auth::user(),
+            'activePage' => 'changelogs',
+            'Changelogs' => $changelogs
+        ]);
+    }
+
+    // Add changelog
+    public function addChangelog(Request $request) {
+        $projects = Project::distinct('name')->get();
+
+        return view('dashboard.addChangelog', [
+            'User' => Auth::user(),
+            'activePage' => 'changelogs',
+            'Projects' => $projects
+        ]);
+    }
+
+    // Add changelog
+    public function editChangelog(Request $request, $logId) {
+        $changelog = Changelog::where('id', $logId)->first();
+
+        return view('dashboard.editChangelog', [
+            'User' => Auth::user(),
+            'activePage' => 'changelogs',
+            'Changelog' => $changelog
+        ]);
+    }
+
+    // Create changelog
+    public function createChangelog(Request $request) {
+        $validation = Validator::make($request->all(), [
+            'project_selection' => 'required|numeric',
+            'project_version' => 'required|min:4',
+            'changelog_text' => 'required',
+        ]);
+
+        if (!$validation->fails()) {
+            $pId = $request->input('project_selection');
+            $pVersion = $request->input('project_version');
+            $cText = $request->input('changelog_text');
+
+            $changelog = new Changelog();
+            $changelog->version = $pVersion;
+            $changelog->changes = $cText;
+            $result = $changelog->Save();
+
+            if ($result) {
+                $changelog = Changelog::where('id', $changelog->id)->first(); // <- not the best way of checking
+                $project = Project::where('id', $pId)->first();
+
+                $changelogs = NULL;
+                if ($project->changelogs != NULL) {
+                    $changelogs = json_decode($project->changelogs);
+                }
+
+                if ($changelogs == NULL) {
+                    $changelogs = array("$changelog->id");
+                } else {
+                    array_push($changelogs, "$changelog->id");
+                }
+
+                $project->changelogs = json_encode($changelogs);
+                $pResult = $project->Save();
+
+                if ($pResult) {
+                    return view('dashboard.changelogCompletion', [
+                        'User' => Auth::user(),
+                        'activePage' => 'changelogs'
+                    ]);
+                } else {
+                    $changelog->delete();
+                    Session::flash('submitError', "Your changelog could not be linked to the project.");
+                    return Redirect::back();
+                }
+            } else {
+                Session::flash('submitError', "Your changelog could not be saved.");
+                return Redirect::back();
+            }
+        } else {
+            Session::flash('submitError', "Your inputs could not be validated. Please try again.");
+            return Redirect::back();
+        }
+    }
+
+    // Update changelog
+    public function updateChangelog(Request $request) {
+        if ($request->has('update_changelog')) {
+            $validation = Validator::make($request->all(), [
+                'changelog_id' => 'required|numeric',
+                'changelog_version' => 'required|min:4',
+                'changelog_text' => 'required',
+            ]);
+
+            if (!$validation->fails()) {
+                $cId = $request->input('changelog_id');
+                $cVersion = $request->input('changelog_version');
+                $cText = $request->input('changelog_text');
+    
+                $changelog = Changelog::where('id', $cId)->first();
+
+                $updateArray = array();
+                $updateArray['version'] = $cVersion;
+                $updateArray['changes'] = $cText;
+                $result = $changelog->Update($updateArray);
+
+                if ($result) {
+                    return view('dashboard.changelogUpdated', [
+                        'User' => Auth::user(),
+                        'activePage' => 'changelogs'
+                    ]);
+                } else {
+                    Session::flash('submitError', "Your changelog could not be updated.");
+                    return Redirect::back();
+                }
+            } else {
+                Session::flash('submitError', $validation->errors()->first());
+                return Redirect::back();
+            }
+        }
+
+        if ($request->has('delete_changelog')) {
+            $validation = Validator::make($request->all(), [
+                'changelog_id' => 'required|numeric',
+            ]);
+
+            if (!$validation->fails()) {
+                $cId = $request->input('changelog_id');
+
+                $changelog = Changelog::where('id', $cId)->first();
+                $result = $changelog->delete();
+
+                if ($result) {
+                    // Remove self from parent project
+                    $project = $changelog->ownerProject();
+                    $logs = json_decode($project->changelogs);
+                    $newLogs = array();
+                    for ($i = 0; $i < sizeof($logs); $i++) {
+                        if ($logs[$i] != $cId) {
+                            array_push($newLogs, $logs[$i]);
+                        }
+                    }
+                    if (sizeof($logs) < 1) {
+                        $project->changelogs = NULL;
+                    } else {
+                        $project->changelogs = json_encode($newLogs);
+                    }
+                    $project->Save();
+
+                    return view('dashboard.changelogDeletion', [
+                        'User' => Auth::user(),
+                        'activePage' => 'changelogs'
+                    ]);
+                } else {
+                    Session::flash('submitError', "Your changelog could not be removed.");
+                    return Redirect::back();
+                }
+            } else {
+                Session::flash('submitError', "Your changelog could not be removed.");
+                return Redirect::back();
+            }
+        }
+
+        return view('dashboard.changelogs', [
+            'User' => Auth::user(),
+            'activePage' => 'changelogs'
+        ]);
     }
 
     // Add project
@@ -214,14 +388,10 @@ class AdminController extends Controller
                         $result = $project->Update($updateArray);
         
                         if ($result) {
-                            if ($request->file('project_data') != NULL) {
-                                return view('dashboard.projectDataUpdated', [
-                                    'User' => Auth::user(),
-                                    'activePage' => 'projects',
-                                    'Project' => Project::where('name', $project->name)->first()
-                                ]);
-                            }
-                            return redirect('/dashboard/projects');
+                            return view('dashboard.projectDataUpdated', [
+                                'User' => Auth::user(),
+                                'activePage' => 'projects'
+                            ]);
                         } else {
                             Session::flash('submitError', "Your project could not be created.");
                             return Redirect::back();
@@ -272,21 +442,34 @@ class AdminController extends Controller
                     $users = User::all();
                     foreach ($users as $user) {
                         $projects = $user->Projects();
+                        $newProjects = array();
 
                         if ($projects != NULL) {
                             if ($projects[0] != 'all') {
                                 for ($i = 0; $i < sizeof($projects); $i++) {
-                                    if ($projects[$i] == $pId) {
-                                        unset($projects[$i]);
+                                    if ($projects[$i] != $pId) {
+                                        array_push($newProjects, $projects[$i]);
                                     }
                                 }
 
                                 if (sizeof($projects) > 0) {
-                                    $user->permitted_projects = json_encode($projects);
+                                    $user->permitted_projects = json_encode($newProjects);
                                 } else {
                                     $user->permitted_projects = NULL;
                                 }
                                 $user->Save();
+                            }
+                        }
+                    }
+
+                    // Remove all changelogs associated with project
+                    if ($project->changelogs != NULL) {
+                        $changelogs = Changelog::all();
+                        foreach ($changelogs as $changelog) {
+                            foreach (json_decode($project->changelogs) as $pLog) {
+                                if ($changelog->id == $pLog) {
+                                    $changelog->delete();
+                                }
                             }
                         }
                     }
@@ -1125,6 +1308,7 @@ class AdminController extends Controller
                         $project = Project::where('id', $commandArray['projectID'])->first();
                         if ($project != NULL) {
                             $currentProjects = $user->Projects();
+                            $newProjects = array();
                             if ($currentProjects != NULL) {
                                 if ($currentProjects[0] == 'all') {
                                     return array("This user is an admin, therefore they have access to all projects.");
@@ -1133,8 +1317,8 @@ class AdminController extends Controller
                                     // IF USER HAS CURRENT PROJECTS
                                     if (in_array($commandArray['projectID'], $currentProjects)) {
                                         for ($i = 0; $i < sizeof($currentProjects); $i++) {
-                                            if ($currentProjects[$i] == $commandArray['projectID']) {
-                                                unset($currentProjects[$i]);
+                                            if ($currentProjects[$i] != $commandArray['projectID']) {
+                                                array_push($newProjects, $currentProjects[$i]);
                                             }
                                         }
                                     } else {
@@ -1147,7 +1331,11 @@ class AdminController extends Controller
                                 return array("Error: $user->name doesn't have $project->name in their project list.");
                                 break;
                             }
-                            $user->permitted_projects = json_encode($currentProjects);
+                            if (sizeof($newProjects) < 1) {
+                                $user->permitted_projects = NULL;
+                            } else {
+                                $user->permitted_projects = json_encode($newProjects);
+                            }
                             $result = $user->Save();
 
                             if ($result) {

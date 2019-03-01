@@ -10,7 +10,7 @@
             <p>Access User: {{ $Project->accessUser }}</p>
             <p>Access Pass: {{ $Project->accessPass }}</p>
         </div>
-        <a class="btn btn-primary" href="/dashboard/projects">Continue</a>
+        <a style="position: absolute; bottom: 10px; right: 10px;" class="btn btn-primary" href="/dashboard/projects">Continue</a>
     </div>
 </div>
 @endsection

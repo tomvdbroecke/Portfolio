@@ -219,6 +219,7 @@ body {
 .db_section .submit-block {
     display: block;
     margin-top: 10px;
+    overflow: hidden;
 }
 
 .db_section .help-block {
@@ -318,7 +319,7 @@ body {
     transition: 0.3s;
     position: absolute;
     right: 100px;
-    bottom: -113px;
+    margin-top: 6px;
 }
 
 .smallLoader.on {

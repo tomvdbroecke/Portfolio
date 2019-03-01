@@ -326,3 +326,54 @@
 27-02-2019 12:04:24 7 | 2019_02_20_111500_create_projects_table | 2
 27-02-2019 12:04:28 Input: setbatch 7 1
 27-02-2019 12:04:28 Batch number of 2019_02_20_111500_create_projects_table has been set to 1
+01-03-2019 10:48:31 Input: user:get all
+01-03-2019 10:48:31 1 | Tom | tomvdbroecke@outlook.com | active | verified | admin
+01-03-2019 10:48:31 2 | Bob | bob@bob.nl | inactive | unverified | user
+01-03-2019 10:48:31 3 | Kees | kees@kees.nl | active | verified | user
+01-03-2019 10:48:31 4 | Sjaak | sjaak@staak.nl | active | verified | user
+01-03-2019 10:48:42 Input: user:project:add 2 1
+01-03-2019 10:48:42 Error: Command not recognised.
+01-03-2019 10:48:47 Input: commands
+01-03-2019 10:48:47 Artisan Commands:
+01-03-2019 10:48:47 -migrate
+01-03-2019 10:48:47 -migrate:fresh
+01-03-2019 10:48:47 -migrate:install
+01-03-2019 10:48:47 -migrate:refresh
+01-03-2019 10:48:47 -migrate:reset
+01-03-2019 10:48:47 -migrate:rollback
+01-03-2019 10:48:47 -migrate:status
+01-03-2019 10:48:47 -make:model
+01-03-2019 10:48:47 -make:controller
+01-03-2019 10:48:47 -config:clear
+01-03-2019 10:48:47 -route:list
+01-03-2019 10:48:47 -env
+01-03-2019 10:48:47 Custom Commands:
+01-03-2019 10:48:47 -commands
+01-03-2019 10:48:47 -test
+01-03-2019 10:48:47 -log:clear
+01-03-2019 10:48:47 -log:view
+01-03-2019 10:48:47 -setbatch
+01-03-2019 10:48:47 -getbatch
+01-03-2019 10:48:47 -user:get
+01-03-2019 10:48:47 -user:create
+01-03-2019 10:48:47 -user:delete
+01-03-2019 10:48:47 -user:edit:active
+01-03-2019 10:48:47 -user:edit:verified
+01-03-2019 10:48:47 -user:edit:name
+01-03-2019 10:48:47 -user:edit:email
+01-03-2019 10:48:47 -user:edit:password
+01-03-2019 10:48:47 -user:projects:get
+01-03-2019 10:48:47 -user:projects:add
+01-03-2019 10:48:47 -user:projects:remove
+01-03-2019 10:48:47 -project:get
+01-03-2019 10:48:54 Input: user:projects:add 2 1
+01-03-2019 10:48:54 Success: Test has been added to Bob's project list.
+01-03-2019 10:48:59 Input: user:projects:add 2 2
+01-03-2019 10:48:59 Success: TestTest has been added to Bob's project list.
+01-03-2019 10:49:16 Input: user:projects:remove 2 1
+01-03-2019 10:49:16 Success: Test has been removed from Bob's project list.
+01-03-2019 10:51:40 Input: user:projects:get 2
+01-03-2019 10:51:40 1 | Test | 0.0.1 | Beta
+01-03-2019 10:51:40 2 | TestTest | 0.0.1 | Testing
+01-03-2019 10:51:52 Input: user:projects:remove 2 1
+01-03-2019 10:51:52 Success: Test has been removed from Bob's project list.

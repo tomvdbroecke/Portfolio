@@ -71,6 +71,7 @@
                                     <li><a href="/dashboard/account"{{ $activePage === "account" ? ' class=active' : '' }}>Account</a></li>
                                     <li><a href="/dashboard/projects"{{ $activePage === "projects" ? ' class=active' : '' }}>Projects</a></li>
                                     @if($User->IsAdmin())
+                                    <li><a href="/dashboard/changelogs"{{ $activePage === "changelogs" ? ' class=active' : '' }}>Changelogs</a></li>
                                     <li><a href="/dashboard/console"{{ $activePage === "console" ? ' class=active' : '' }}>Console</a></li>
                                     @endif
                                 </ul>
@@ -81,7 +82,7 @@
                         </div>
                     </div>
                     <div class="dashboard_footer">
-                        <p class="db_note">Beta v0.1.23</p>
+                        <p class="db_note">Beta v0.2.73</p>
                         <a class="btn btn-primary btn-logout" href="/logout">Log Out</a>
                     </div>  
                 </div>
