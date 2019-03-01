@@ -8,7 +8,9 @@ use App\Project;
 use App\Changelog;
 use Hash;
 use URL;
+use Log;
 use Illuminate\Http\Request;
+use Validator;
 
 class UserController extends Controller
 {
@@ -53,6 +55,8 @@ class UserController extends Controller
 
     // Post account
     public function editAccount(Request $request) {
+        $user = Auth::user();
+
         // If password needs to be changed
         if ($request->has('change_password')) {
             $validation = Validator::make($request->all(), [
@@ -78,6 +82,7 @@ class UserController extends Controller
 
                         // Redirect properly
                         if ($result) {
+                            Log::info("User: $user->name has changed their password.");
                             Session::flash('passwordSuccess', "Your password has been changed.");
                             return redirect('/dashboard/account');
                         } else {
@@ -86,15 +91,18 @@ class UserController extends Controller
                         }
 
                     } else {
+                        Log::info("User: $user->name attempted to change their password, but the passwords entered did not match.");
                         Session::flash('passwordError', "The 'New Passwords' you've enter did not match.");
                         return redirect('/dashboard/account');
                     }
 
                 } else {
+                    Log::notice("User: $user->name attempted to change their password, but their current password was incorrect.");
                     Session::flash('passwordError', "Your 'Current Password' was incorrect.");
                     return redirect('/dashboard/account');
                 }
             } else {
+                Log::notice("User: $user->name attempted to change their password, but their inputs could not be validated.");
                 Session::flash('passwordError', "Your inputs could not be validated.");
                 return redirect('/dashboard/account');
             }
@@ -125,6 +133,7 @@ class UserController extends Controller
                         // Redirect properly
                         if ($result) {
                             Auth::user()->SendEmailVerificationNotification();
+                            Log::info("User: $user->name has changed their e-mail address to: $nEmail, a verification email has been sent.");
                             Session::flash('logoutMessage', "Your e-mail address has been changed to: $nEmail. Please verify your e-mail address before proceeding.");
                             Auth::logout();
                             return redirect('/login');
@@ -134,15 +143,18 @@ class UserController extends Controller
                         }
 
                     } else {
+                        Log::info("User: $user->name attempted to change their e-mail address, but the emails entered did not match.");
                         Session::flash('emailError', "The e-mail addresses you have entered do not match.");
                         return redirect('/dashboard/account');
                     }
 
                 } else {
+                    Log::info("User: $user->name attempted to change their e-mail address, But the e-mail they entered was invalid.");
                     Session::flash('emailError', "Please enter a valid e-mail address.");
                     return redirect('/dashboard/account');
                 }
             } else {
+                Log::info("User: $user->name to change their e-mail address. But their inputs could not be validated.");
                 Session::flash('emailError', "Your inputs could not be validated.");
                 return redirect('/dashboard/account');
             }

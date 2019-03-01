@@ -22,6 +22,7 @@ use InvalidArgumentException;
 use FilesystemIterator;
 use ErrorException;
 use RecursiveIteratorIterator;
+use Log;
 
 use Illuminate\Http\Request;
 use Illuminate\Console\Application;
@@ -113,6 +114,7 @@ class AdminController extends Controller
                     $pResult = $project->Save();
 
                     if ($pResult) {
+                        Log::notice("A changelog has been succesfully added. Changelog ID: $changelog->id");
                         return view('dashboard.changelogCompletion', [
                             'User' => Auth::user(),
                             'activePage' => 'changelogs'
@@ -123,14 +125,17 @@ class AdminController extends Controller
                         return Redirect::back();
                     }
                 } else {
+                    Log::notice("A changelog creation attempt was made, but the project it was meant to be linked to does not exist.");
                     Session::flash('submitError', "The selected project does not exist.");
                     return Redirect::back();
                 }
             } else {
+                Log::notice("A changelog creation attempt was made, but the changelog could not be saved.");
                 Session::flash('submitError', "Your changelog could not be saved.");
                 return Redirect::back();
             }
         } else {
+            Log::notice("A changelog creation attempt was made, but the inputs could not be validated.");
             Session::flash('submitError', "Your inputs could not be validated. Please try again.");
             return Redirect::back();
         }
@@ -158,6 +163,7 @@ class AdminController extends Controller
                 $result = $changelog->Update($updateArray);
 
                 if ($result) {
+                    Log::notice("A changelog was updated. Changelog ID: $changelog->id");
                     return view('dashboard.changelogUpdated', [
                         'User' => Auth::user(),
                         'activePage' => 'changelogs'
@@ -167,6 +173,7 @@ class AdminController extends Controller
                     return Redirect::back();
                 }
             } else {
+                Log::notice("A changelog update attempt was made, it could not be updated.");
                 Session::flash('submitError', $validation->errors()->first());
                 return Redirect::back();
             }
@@ -202,6 +209,7 @@ class AdminController extends Controller
                         $project->Save();
                     }
 
+                    Log::notice("A changelog was removed. Changelog ID: $changelog->id");
                     return view('dashboard.changelogDeletion', [
                         'User' => Auth::user(),
                         'activePage' => 'changelogs'
@@ -272,6 +280,7 @@ class AdminController extends Controller
                     $result = $project->Save();
 
                     if ($result) {
+                        Log::notice("A new project was created. Name: $pName");
                         return view('dashboard.projectCompletion', [
                             'User' => Auth::user(),
                             'activePage' => 'projects',
@@ -283,17 +292,21 @@ class AdminController extends Controller
                     }
                 } else {
                     if (!is_string($fileResult)) {
+                        Log::notice("A project creation attempt was made, but there was an error uploading the project data.");
                         Session::flash('submitError', "There was an error uploading your project data.");
                         return Redirect::back();
                     }
+                    Log::notice("A project creation attempt was made, but there was an error uploading the project data. Error: $fileResult");
                     Session::flash('submitError', $fileResult);
                     return Redirect::back();
                 }
             } else {
+                Log::notice("A project creation attempt was made, but a project with the same name already exists.");
                 Session::flash('submitError', "A project with that name already exists.");
                 return Redirect::back();
             }
         } else {
+            Log::notice("A project creation attempt was made, but the inputs could not be validated.");
             Session::flash('submitError', "Your inputs could not be validated. Please try again.");
             return Redirect::back();
         }
@@ -395,6 +408,7 @@ class AdminController extends Controller
                         $result = $project->Update($updateArray);
         
                         if ($result) {
+                            Log::notice("A project was updated. ID: $pId");
                             return view('dashboard.projectDataUpdated', [
                                 'User' => Auth::user(),
                                 'activePage' => 'projects'
@@ -405,9 +419,11 @@ class AdminController extends Controller
                         }
                     } else {
                         if (!is_string($fileResult)) {
+                            Log::notice("A project update attempt was made, but there was an error uploading the project data.");
                             Session::flash('submitError', "There was an error uploading your project data.");
                             return Redirect::back();
                         }
+                        Log::notice("A project update attempt was made, but there was an error uploading the project data. Error: $fileResult");
                         Session::flash('submitError', $fileResult);
                         return Redirect::back();
                     }
@@ -481,15 +497,18 @@ class AdminController extends Controller
                         }
                     }
 
+                    Log::notice("A has been deleted. Project: $project->name");
                     return view('dashboard.projectDeletion', [
                         'User' => Auth::user(),
                         'activePage' => 'projects'
                     ]);
                 } else {
+                    Log::notice("A project deletion attempt was made, but it could not be removed.");
                     Session::flash('submitError', "Your project could not be removed.");
                     return Redirect::back();
                 }
             } else {
+                Log::notice("A project deletion attempt was made, but it could not be removed.");
                 Session::flash('submitError', "Your project could not be removed.");
                 return Redirect::back();
             }
@@ -623,6 +642,7 @@ class AdminController extends Controller
 
     // Execute custom command
     public function executeCustomCommand($command, $cutInput) {
+        Log::info("The $command command was ran through the console. See the console log for more information.");
         switch ($command) {
             case "test":
                 return array("Custom commands are enabled!");

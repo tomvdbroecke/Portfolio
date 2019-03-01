@@ -36,7 +36,7 @@ return [
     'channels' => [
         'stack' => [
             'driver' => 'stack',
-            'channels' => ['daily'],
+            'channels' => ['single', 'slack'],
         ],
 
         'single' => [
@@ -55,7 +55,7 @@ return [
         'slack' => [
             'driver' => 'slack',
             'url' => env('LOG_SLACK_WEBHOOK_URL'),
-            'username' => 'Laravel Log',
+            'username' => 'Tom v/d Broecke Portfolio Log',
             'emoji' => ':boom:',
             'level' => 'critical',
         ],

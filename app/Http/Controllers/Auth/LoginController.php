@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use Session;
+use Log;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
@@ -54,6 +55,8 @@ class LoginController extends Controller
         $isLoggedIn = false;
         if (Auth::check()) {
             $isLoggedIn = true;
+            $user = Auth::user();
+            Log::info("User: $user->name is attempting to log out.");
         }
 
         $this->guard()->logout();
@@ -74,6 +77,7 @@ class LoginController extends Controller
         if ($isLoggedIn) {
             Session::flash('logoutMessage', 'You are now logged out.');
         }
+        Log::info("A user has been logged out.");
         return redirect('/login');
     }
 
@@ -100,6 +104,8 @@ class LoginController extends Controller
 
         $validation = $this->attemptLogin($request);
         if ($validation == "active") {
+            $name = $this->guard()->user()->name;
+            Log::info("A user has logged in. User: $name");
             return $this->sendLoginResponse($request);
         }
 
@@ -152,16 +158,19 @@ class LoginController extends Controller
     protected function sendFailedLoginResponse(Request $request, $type)
     {
         if ($type == "failed") {
+            Log::info("A user attempted to log in but failed.");
             throw ValidationException::withMessages([
                 $this->username() => [trans('auth.failed')],
             ]);
         }
         if ($type == "unverified") {
+            Log::info("A user attempted to log in but their e-mail address is unverified.");
             throw ValidationException::withMessages([
                 $this->username() => [trans('auth.unvalidated')],
             ]);
         }
         if ($type == "inactive") {
+            Log::info("A user attempted to log in but their account is inactive.");
             throw ValidationException::withMessages([
                 $this->username() => [trans('auth.inactive')],
             ]);

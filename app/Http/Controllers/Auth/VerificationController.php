@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\User;
+use Log;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\VerifiesEmails;
 use Illuminate\Http\Request;
@@ -59,6 +60,7 @@ class VerificationController extends Controller
 
         if ($user->markEmailAsVerified()) {
             event(new Verified($user));
+            Log::info("User: $user->name has verified their e-mail address.");
         }
 
         return redirect($this->redirectPath())->with('verified', true);
