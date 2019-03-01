@@ -30,6 +30,9 @@ Route::get('/dashboard/projects/edit', function () { return redirect('/dashboard
 Route::post('/dashboard/projects/edit', 'AdminController@updateProject');
 Route::get('/dashboard/projects/add', 'AdminController@addProject');
 Route::post('/dashboard/projects/add', 'AdminController@createProject');
+Route::get('/dashboard/projects/editEnv/{projectName}', ['uses' => 'AdminController@editEnv', 'as' => 'projectName']);
+Route::get('/dashboard/projects/editEnv', function () { return redirect('/dashboard/projects'); } );
+Route::post('/dashboard/projects/editEnv', 'AdminController@updateEnv');
 
 // Embed route
 Route::get('/dashboard/projects/embed/{projectName}', ['uses' => 'UserController@embedProject', 'as' => 'projectName']);

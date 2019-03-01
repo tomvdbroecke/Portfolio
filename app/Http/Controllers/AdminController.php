@@ -127,6 +127,53 @@ class AdminController extends Controller
         ]);
     }
 
+    // Edit project
+    public function editEnv(Request $request, $projectName) {
+        $project = Project::where('name', $projectName)->first();
+        $secret = env('CUSTOM_HOST_USER');
+        $envFile = "/home/$secret/domains/tomvdbroecke.com/Projects/$project->name/.env";
+
+        return view('dashboard.editEnv', [
+            'User' => Auth::user(),
+            'activePage' => 'projects',
+            'Project' => $project,
+            'envFile' => $envFile
+        ]);
+    }
+
+    // Edit project
+    public function updateEnv(Request $request) {
+        $validation = Validator::make($request->all(), [
+            'project_id' => 'required|numeric',
+            'env-text' => 'required',
+        ]);
+
+        if (!$validation->fails()) {
+            $pId = $request->input('project_id');
+            $envText = $request->input('env-text');
+
+            if ($request->has('env-submit')) {
+                $secret = env('CUSTOM_HOST_USER');
+                $project = Project::where('id', $pId)->first();
+
+                $stream = fopen("/home/$secret/domains/tomvdbroecke.com/Projects/$project->name/.env", 'w');
+                fwrite($stream, $envText);
+                fclose($stream);
+                
+                return view('dashboard.projectEnvUpdated', [
+                    'User' => Auth::user(),
+                    'activePage' => 'projects',
+                    'Project' => $project
+                ]);
+            }
+    
+            if ($request->has('env-cancel')) {
+                $project = Project::where('id', $pId)->first();
+                return redirect("/dashboard/projects/edit/$project->name");
+            }
+        }
+    }
+
     // Update project
     public function updateProject(Request $request) {
         if ($request->has('update_project')) {

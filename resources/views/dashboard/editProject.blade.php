@@ -3,11 +3,14 @@
 @section('content')
 <div class="account_content">
     <div class="db_section">
-        <form action="/dashboard/projects/edit" method="post" enctype="multipart/form-data">
+        <form action="/dashboard/projects/edit" method="post" enctype="multipart/form-data" onsubmit="smallLoader()">
             @csrf
             <div class="form-group">
                 <div class="label_head">
                     <p class="section_label">Edit Project</p>
+                    @if($Project->folder_structure == "laravel")
+                    <a href="/dashboard/projects/editEnv/{{ $Project->name }}" class="btn btn-env">ENV</a>
+                    @endif
                     <button onclick="return confirm('Are you sure you want to delete this Project?');" class="btn btn-primary btn-delete" type="submit" name="delete_project">Delete Project</button>
                 </div>
                 <input type="hidden" name="project_id" value="{{ $Project->id }}">
@@ -33,6 +36,7 @@
                             </span>
                         </div>
                     @endif
+                    <div class="smallLoader"></div>
                     <button class="btn btn-primary" type="submit" name="update_project">Update</button>
                 </div>
             </div>

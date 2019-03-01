@@ -3,7 +3,7 @@
 @section('content')
 <div class="account_content">
     <div class="db_section">
-        <form action="/dashboard/projects/add" method="post" enctype="multipart/form-data">
+        <form action="/dashboard/projects/add" method="post" enctype="multipart/form-data" onsubmit="smallLoader()">
             @csrf
             <div class="form-group">
                 <div class="label_head">
@@ -31,6 +31,7 @@
                             </span>
                         </div>
                     @endif
+                    <div class="smallLoader"></div>
                     <button class="btn btn-primary" type="submit" name="add_project">Create</button>
                 </div>
             </div>
