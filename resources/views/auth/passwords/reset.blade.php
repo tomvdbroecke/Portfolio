@@ -11,9 +11,7 @@
 
         <input type="hidden" name="token" value="{{ $token }}">
 
-        <div class="form-group row">
-            <label for="email">{{ __('E-Mail Address') }}</label>
-
+        <div class="form-group">
             <div>
                 <i class="fas fa-user login_input_label"></i>
                 <input id="email" placeholder="E-Mail Address" type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ $email ?? old('email') }}" required autofocus>
@@ -27,8 +25,6 @@
         </div>
 
         <div class="form-group" style="margin-top: 20px;">
-            <label for="password">{{ __('Password') }}</label>
-
             <div>
                 <div class="fa fa-lock login_input_label"></div>
                 <input id="password" placeholder="Password" type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" required>
@@ -42,8 +38,6 @@
         </div>
 
         <div class="form-group" style="margin-top: 20px;">
-            <label for="password-confirm">{{ __('Confirm Password') }}</label>
-
             <div>
                 <div class="fa fa-lock login_input_label"></div>
                 <input id="password-confirm" placeholder="Confirm Password" type="password" class="form-control" name="password_confirmation" required>
@@ -51,7 +45,7 @@
         </div>
 
         <div class="form-group">
-            <div>
+            <div style="margin-top: 40px; margin-bottom: -10px;">
                 <button type="submit" class="btn btn-primary btn-login">
                     {{ __('Reset Password') }}
                 </button>

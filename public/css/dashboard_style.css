@@ -302,6 +302,11 @@ body {
   transition: 0.3s;
 }
 
+.btn-project .fa-plus {
+  position: relative;
+  top: 2px;
+}
+
 .smallLoader {
   border: 2px solid lightgray;
   /* Light grey */

@@ -94,31 +94,36 @@ class AdminController extends Controller
             $result = $changelog->Save();
 
             if ($result) {
-                $changelog = Changelog::where('id', $changelog->id)->first(); // <- not the best way of checking
+                $changelog = Changelog::where('id', $changelog->id)->first();
                 $project = Project::where('id', $pId)->first();
 
-                $changelogs = NULL;
-                if ($project->changelogs != NULL) {
-                    $changelogs = json_decode($project->changelogs);
-                }
+                if ($project != NULL) {
+                    $changelogs = NULL;
+                    if ($project->changelogs != NULL) {
+                        $changelogs = json_decode($project->changelogs);
+                    }
 
-                if ($changelogs == NULL) {
-                    $changelogs = array("$changelog->id");
+                    if ($changelogs == NULL) {
+                        $changelogs = array("$changelog->id");
+                    } else {
+                        array_push($changelogs, "$changelog->id");
+                    }
+
+                    $project->changelogs = json_encode($changelogs);
+                    $pResult = $project->Save();
+
+                    if ($pResult) {
+                        return view('dashboard.changelogCompletion', [
+                            'User' => Auth::user(),
+                            'activePage' => 'changelogs'
+                        ]);
+                    } else {
+                        $changelog->delete();
+                        Session::flash('submitError', "Your changelog could not be linked to the project.");
+                        return Redirect::back();
+                    }
                 } else {
-                    array_push($changelogs, "$changelog->id");
-                }
-
-                $project->changelogs = json_encode($changelogs);
-                $pResult = $project->Save();
-
-                if ($pResult) {
-                    return view('dashboard.changelogCompletion', [
-                        'User' => Auth::user(),
-                        'activePage' => 'changelogs'
-                    ]);
-                } else {
-                    $changelog->delete();
-                    Session::flash('submitError', "Your changelog could not be linked to the project.");
+                    Session::flash('submitError', "The selected project does not exist.");
                     return Redirect::back();
                 }
             } else {
@@ -181,19 +186,21 @@ class AdminController extends Controller
                 if ($result) {
                     // Remove self from parent project
                     $project = $changelog->ownerProject();
-                    $logs = json_decode($project->changelogs);
-                    $newLogs = array();
-                    for ($i = 0; $i < sizeof($logs); $i++) {
-                        if ($logs[$i] != $cId) {
-                            array_push($newLogs, $logs[$i]);
+                    if ($project != NULL) {
+                        $logs = json_decode($project->changelogs);
+                        $newLogs = array();
+                        for ($i = 0; $i < sizeof($logs); $i++) {
+                            if ($logs[$i] != $cId) {
+                                array_push($newLogs, $logs[$i]);
+                            }
                         }
+                        if (sizeof($logs) < 1) {
+                            $project->changelogs = NULL;
+                        } else {
+                            $project->changelogs = json_encode($newLogs);
+                        }
+                        $project->Save();
                     }
-                    if (sizeof($logs) < 1) {
-                        $project->changelogs = NULL;
-                    } else {
-                        $project->changelogs = json_encode($newLogs);
-                    }
-                    $project->Save();
 
                     return view('dashboard.changelogDeletion', [
                         'User' => Auth::user(),

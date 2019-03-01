@@ -30,5 +30,6 @@ class Changelog extends Model
                 }
             }
         }
+        return NULL;
     }
 }
