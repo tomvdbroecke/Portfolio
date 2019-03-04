@@ -54,3 +54,20 @@ iframe {
   top: 10px;
   right: 10px;
 }
+
+.blink_me {
+  -webkit-animation: blinker 1s linear 5;
+          animation: blinker 1s linear 5;
+}
+
+@-webkit-keyframes blinker {
+  50% {
+    color: red;
+  }
+}
+
+@keyframes blinker {
+  50% {
+    color: red;
+  }
+}

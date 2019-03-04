@@ -59,3 +59,13 @@ iframe {
     top: 10px;
     right: 10px;
 }
+
+.blink_me {
+    animation: blinker 1s linear 5;
+}
+
+@keyframes blinker {  
+    50% {
+         color: red; 
+        }
+}

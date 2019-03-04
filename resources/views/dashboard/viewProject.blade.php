@@ -103,6 +103,13 @@
         </div>
         </nav>
 
+        <script>
+            if (localStorage.getItem('alertMessage') == null) {
+                alert("The following page might prompt you for a username and password. Please enter the credentials displayed on the top left of the screen after closing this message.");
+                localStorage.setItem('alertMessage', true);
+            }
+        </script>
+
         <div class="embed_holder">
             @if(preg_match('~MSIE|Internet Explorer~i', $_SERVER['HTTP_USER_AGENT']) || (strpos($_SERVER['HTTP_USER_AGENT'], 'Trident/7.0; rv:11.0') !== false))
             <iframe style="border: none;" src="{{ 'https://tomvdbroecke.com/Projects/' . $Project->name . '_public_' . $Project->secretKey }}" style="width: 100%; height: calc(100vh - 57px);"></iframe>
