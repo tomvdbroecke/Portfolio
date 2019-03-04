@@ -25,6 +25,7 @@ Route::post('/dashboard/account', 'UserController@editAccount');
 Route::get('/dashboard/console', 'AdminController@viewConsole');
 Route::post('/dashboard/console', 'AdminController@enterConsole');
 Route::get('/dashboard/consoleLog', 'AdminController@viewConsoleLog');
+Route::get('/dashboard/systemLog', 'AdminController@viewSystemLog');
 Route::get('/dashboard/projects/edit/{projectName}', ['uses' => 'AdminController@editProject', 'as' => 'projectName']);
 Route::get('/dashboard/projects/edit', function () { return redirect('/dashboard/projects'); } );
 Route::post('/dashboard/projects/edit', 'AdminController@updateProject');

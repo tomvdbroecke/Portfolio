@@ -540,6 +540,11 @@ class AdminController extends Controller
         return view('dashboard.logView');
     }
 
+    // Console log
+    public function viewSystemLog() {
+        return view('dashboard.sLogView');
+    }
+
     // Enter console
     public function enterConsole(Request $request) {
         $input = $request->input('consoleInput');
@@ -653,6 +658,13 @@ class AdminController extends Controller
                 break;
             case "log:view":
                 return array("rdir:/dashboard/consoleLog");
+                break;
+            case "sLog:clear":
+                file_put_contents(storage_path('logs/laravel.log'), "");
+                return array("Contents of the System Log have been cleared!");
+                break;
+            case "sLog:view":
+                return array("rdir:/dashboard/systemLog");
                 break;
             case "setbatch":
                 $commandArray = array();

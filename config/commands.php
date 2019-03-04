@@ -27,6 +27,8 @@ return array(
         'test',
         'log:clear',
         'log:view',
+        'sLog:clear',
+        'sLog:view',
         'setbatch',
         'getbatch',
         'user:get',

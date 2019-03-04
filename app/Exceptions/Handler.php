@@ -35,7 +35,7 @@ class Handler extends ExceptionHandler
      */
     public function report(Exception $exception)
     {
-        Log::critical('['.$exception->getCode().'] "'.$exception->getMessage().'" on line '.$exception->getTrace()[0]['line'].' of file '.$exception->getTrace()[0]['file']);
+        Log::error('['.$exception->getCode().'] "'.$exception->getMessage().'" on line '.$exception->getTrace()[0]['line'].' of file '.$exception->getTrace()[0]['file']);
         //parent::report($exception);
     }
 
