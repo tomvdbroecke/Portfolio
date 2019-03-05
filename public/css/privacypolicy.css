@@ -3,7 +3,7 @@
 html, body {
     font-family: 'Roboto', sans-serif;
     color: lightgray;
-    background: linear-gradient(to bottom, #134268 0%,#060d21 100%);
+    background: #060d21;
 }
 
 body {
