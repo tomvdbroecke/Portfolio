@@ -13,6 +13,7 @@
 
 // Regular routes
 Route::get('/', 'PageController@home');
+Route::get('/privacypolicy', 'PageController@privacyPolicy');
 
 // Dashboard routes
 Route::get('/dashboard', 'UserController@dashboard');

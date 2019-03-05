@@ -16,4 +16,8 @@ class PageController extends Controller
             'mobilebrowser' => $mobilebrowser
         ]);
     }
+
+    function privacyPolicy(Request $request) {
+        return view('privacypolicy');
+    }
 }
