@@ -15,7 +15,7 @@
             gtag('config', 'UA-134664416-1');
         </script>
 
-        <title>Tom van den Broecke</title>
+        <title>Tom van den Broecke - Privacy Policy</title>
 
         <!-- OGP Tags -->
         <meta property="og:title" content="Tom van den Broecke">
